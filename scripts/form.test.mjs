@@ -67,6 +67,19 @@ test("champ obligatoire rempli d'espaces : traité comme vide, envoi bloqué", (
   assert.equal(err("email"), "");
 });
 
+test("e-mail sans point dans le domaine (a@b) : refusé, a@b.fr accepté", () => {
+  fill({ ...VALID, email: "jean@adops80" });
+  assert.equal(mod.messageFor($("email")), "Cette adresse e-mail ne semble pas valide.");
+  assert.equal(submit().defaultPrevented, true);
+  assert.equal(err("email"), "Cette adresse e-mail ne semble pas valide.");
+  fill({ email: "jean@adops80.fr" });
+  assert.equal(mod.messageFor($("email")), "");
+});
+
+test("l'attribut pattern de l'e-mail est dans le HTML (actif aussi sans JavaScript)", () => {
+  assert.ok($("email").getAttribute("pattern"));
+});
+
 test("honeypot rempli : aucun envoi", () => {
   fill(VALID);
   $("bot-field").value = "spam";

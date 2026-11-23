@@ -34,7 +34,7 @@ const nombres = ["Moins de 100", "100 à 300", "Plus de 300"];
       </div>
       <div class="field">
         <label for="f-email">E-mail <span class="req" aria-hidden="true">*</span></label>
-        <input id="f-email" name="email" type="email" required autocomplete="email" aria-describedby="err-email" />
+        <input id="f-email" name="email" type="email" required autocomplete="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Adresse e-mail complète, par exemple nom@structure.fr" aria-describedby="err-email" />
         <p class="field__error" id="err-email" role="alert"></p>
       </div>
       <div class="field">

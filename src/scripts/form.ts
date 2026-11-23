@@ -5,7 +5,7 @@ export function messageFor(field: Field): string {
   const v = field.validity;
   // Un champ obligatoire rempli d'espaces est considéré comme vide.
   if (v.valueMissing || (field.required && field.value.trim() === "")) return field.tagName === "SELECT" ? "Merci de faire un choix." : "Merci de renseigner ce champ.";
-  if (v.typeMismatch && (field as HTMLInputElement).type === "email") return "Cette adresse e-mail ne semble pas valide.";
+  if ((v.typeMismatch || v.patternMismatch) && (field as HTMLInputElement).type === "email") return "Cette adresse e-mail ne semble pas valide.";
   return "";
 }
 
