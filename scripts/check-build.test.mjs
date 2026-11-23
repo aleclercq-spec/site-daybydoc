@@ -381,3 +381,10 @@ test("netlify.toml : build, en-têtes de sécurité, CSP Vimeo, cache long sur f
     assert.ok(block && /max-age=31536000, immutable/.test(block), `cache immutable sur ${p}`);
   }
 });
+
+test("netlify.toml : version de Node imposée (Astro exige Node >= 22.23.4)", () => {
+  const t = readFileSync("netlify.toml", "utf8");
+  const m = t.match(/NODE_VERSION\s*=\s*"(\d+)/);
+  assert.ok(m, "NODE_VERSION manquante dans [build.environment]");
+  assert.ok(Number(m[1]) >= 22);
+});
