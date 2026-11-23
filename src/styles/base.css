@@ -104,3 +104,12 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .btn:hover { background: var(--btn-hover); color: var(--btn-fg); }
 .btn--sm { height: 44px; padding: 0 22px; font-size: 15px; }
 .btn--md { height: 48px; padding: 0 26px; font-size: 15px; }
+
+/* Apparitions au défilement : appliquées seulement si le script est actif et le mouvement permis */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready [data-reveal] {
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 400ms ease, transform 400ms ease;
+  }
+  .reveal-ready [data-reveal].is-visible { opacity: 1; transform: none; }
+}

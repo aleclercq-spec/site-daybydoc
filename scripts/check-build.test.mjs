@@ -305,3 +305,11 @@ test("démo : champs étiquetés, zones d'erreur, options des listes, bouton sub
   assert.equal(f.find('a[href="/confidentialite"]').text(), "politique de confidentialité");
   assert.equal($("section#demo h2").text(), "Voyons ensemble comment DaybyDoc s'adapte à votre ADOPS ou votre organisation");
 });
+
+test("animations : classe js posée en ligne, révélation masquée seulement après démarrage du script et si le mouvement est permis", async () => {
+  const { readdirSync } = await import("node:fs");
+  assert.match(readFileSync("dist/index.html", "utf8"), /classList\.add\(["']js["']\)/);
+  const css = readdirSync("dist/_astro").filter((f) => f.endsWith(".css")).map((f) => readFileSync(`dist/_astro/${f}`, "utf8")).join("\n");
+  assert.match(css, /prefers-reduced-motion:\s*no-preference\)\s*\{[^@]*\.reveal-ready \[data-reveal\]/);
+  assert.ok(!/(^|[}\s,])\[data-reveal\]\s*\{[^}]*opacity:\s*0/.test(css.replace(/\.reveal-ready \[data-reveal\]/g, "")), "[data-reveal] ne doit pas être masqué avant démarrage du script");
+});

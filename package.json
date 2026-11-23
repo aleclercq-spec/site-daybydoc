@@ -10,8 +10,9 @@
     "check:build": "node --test scripts/check-build.test.mjs",
     "check:texts": "node --test scripts/check-texts.test.mjs",
     "check:form": "node --test scripts/form.test.mjs",
-    "check": "npm run build && npm run check:build && npm run check:texts && npm run check:form && npm run check:video",
-    "check:video": "node --test scripts/video.test.mjs"
+    "check": "npm run build && npm run check:build && npm run check:texts && npm run check:form && npm run check:video && npm run check:reveal",
+    "check:video": "node --test scripts/video.test.mjs",
+    "check:reveal": "node --test scripts/reveal.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.6",

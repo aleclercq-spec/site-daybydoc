@@ -14,7 +14,7 @@ const steps = [
     <ol class="frise">
       <li class="frise__line" aria-hidden="true"></li>
       {steps.map(([title, text], i) => (
-        <li class="frise__step">
+        <li class="frise__step" data-reveal>
           <span class:list={["frise__mark", { "frise__mark--first": i === 0 }]} aria-hidden="true"></span>
           <p class="frise__n">Étape {i + 1}</p>
           <h3>{title}</h3>
