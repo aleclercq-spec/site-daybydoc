@@ -114,3 +114,38 @@ test("accueil : balises Open Graph et JSON-LD Organization + SoftwareApplication
   const types = $('script[type="application/ld+json"]').map((_, e) => JSON.parse($(e).text())["@type"]).get();
   assert.deepEqual(types.sort(), ["Organization", "SoftwareApplication"]);
 });
+
+test("en-tête : logo, 5 ancres, Se connecter, CTA démo, burger accessible", () => {
+  const $ = home();
+  const h = $("header");
+  assert.equal(h.length, 1);
+  assert.equal(h.find('a[aria-label="DaybyDoc, accueil"] img[alt="DaybyDoc"]').length, 1);
+  const nav = h.find('nav[aria-label="Sections de la page"] a').map((_, a) => [[$(a).attr("href"), $(a).text().trim()]]).get();
+  assert.deepEqual(nav, [
+    ["#fonctionnement", "Comment ça marche"], ["#regles", "Vos règles"], ["#profils", "Profils"],
+    ["#temoignage", "Témoignage"], ["#faq", "FAQ"],
+  ]);
+  assert.equal(h.find('a[href="https://dbyd.fr"]').text().trim(), "Se connecter");
+  assert.equal(h.find('a[href="#demo"]').text().trim(), "Demander une démo");
+  const b = h.find("button.burger");
+  assert.equal(b.attr("aria-label"), "Ouvrir le menu");
+  assert.equal(b.attr("aria-expanded"), "false");
+  assert.ok($(`#${b.attr("aria-controls")}`).length, "aria-controls doit viser un élément existant");
+});
+
+test("pied de page : logo blanc, liens, contact, mention 9troisquarts", () => {
+  const $ = home();
+  const f = $("footer");
+  assert.equal(f.find('img[alt="DaybyDoc"]').length, 1);
+  assert.equal(f.find('a[href="/mentions-legales"]').text().trim(), "Mentions légales");
+  assert.equal(f.find('a[href="/confidentialite"]').text().trim(), "Politique de confidentialité");
+  assert.equal(f.find('a[href="https://dbyd.fr"]').text().trim(), "Se connecter");
+  assert.equal(f.find('a[href="#demo"]').text().trim(), "Demander une démo");
+  assert.equal(f.find('a[href="mailto:contact@dbyd.fr"]').length, 1);
+  assert.match(f.text(), /Conçu et maintenu par 9troisquarts\./);
+  assert.match(f.text(), /Le planning des gardes pour les ADOPS, maisons médicales et associations de régulation\./);
+});
+
+test("barre CTA mobile : lien vers #demo", () => {
+  assert.equal(home()('.sticky-cta a[href="#demo"]').text().trim(), "Demander une démo");
+});

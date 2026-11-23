@@ -1,0 +1,13 @@
+<div class="sticky-cta" hidden>
+  <a class="btn" href="#demo">Demander une démo</a>
+</div>
+<style>
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    padding: 12px 16px 16px;
+    background: rgba(255, 255, 255, 0.96); border-top: 1px solid var(--neutral-3);
+    box-shadow: 0 -4px 16px rgba(16, 80, 100, 0.08);
+  }
+  .sticky-cta .btn { display: flex; width: 100%; font-weight: 600; }
+  @media (min-width: 768px) { .sticky-cta { display: none !important; } }
+</style>

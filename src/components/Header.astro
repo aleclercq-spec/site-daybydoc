@@ -1,0 +1,73 @@
+---
+import logo from "../assets/logo-daybydoc-couleur.svg";
+
+const onHome = /^\/(index(\.html)?)?$/.test(Astro.url.pathname);
+const a = (id: string) => `${onHome ? "" : "/"}#${id}`;
+const links = [
+  ["fonctionnement", "Comment ça marche"],
+  ["regles", "Vos règles"],
+  ["profils", "Profils"],
+  ["temoignage", "Témoignage"],
+  ["faq", "FAQ"],
+] as const;
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="logo" href="/" aria-label="DaybyDoc, accueil">
+      <img src={logo.src} alt="DaybyDoc" width="131" height="30" />
+    </a>
+    <button class="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu">
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+    </button>
+    <div class="menu" id="menu">
+      <nav class="menu__nav" aria-label="Sections de la page">
+        {links.map(([id, label]) => <a href={a(id)}>{label}</a>)}
+      </nav>
+      <div class="menu__actions">
+        <a class="login" href="https://dbyd.fr">Se connecter</a>
+        <a class="btn btn--sm" href={a("demo")}>Demander une démo</a>
+      </div>
+    </div>
+  </div>
+</header>
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 10;
+    background: #fff; border-bottom: 1px solid var(--neutral-3);
+  }
+  .site-header__inner {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 40px;
+    padding: 14px var(--gutter); min-height: var(--header-h);
+  }
+  .logo { display: flex; align-items: center; min-height: 44px; }
+  .logo img { display: block; height: 30px; width: auto; }
+  .burger { display: none; }
+  .menu { display: flex; flex: 1 1 auto; align-items: center; gap: 12px 40px; flex-wrap: wrap; }
+  .menu__nav { display: flex; flex-wrap: wrap; gap: 0 28px; flex: 1 1 auto; }
+  .menu__nav a, .login {
+    display: flex; align-items: center; min-height: 44px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+  }
+  .menu__nav a { color: var(--neutral-7); }
+  .menu__nav a:hover { color: var(--primary); }
+  .menu__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; }
+
+  /* En dessous de 1024 px : menu replié (si JavaScript actif) */
+  @media (max-width: 1023px) {
+    :global(.js) .site-header__inner { flex-wrap: wrap; justify-content: space-between; gap: 0; }
+    :global(.js) .burger {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border: 1px solid var(--neutral-3); border-radius: 9999px;
+      background: #fff; color: var(--primary); cursor: pointer;
+    }
+    :global(.js) .menu {
+      display: none; flex: 1 0 100%; flex-direction: column; align-items: stretch;
+      gap: 8px; padding: 8px 0 16px;
+    }
+    :global(.js) .menu.is-open { display: flex; }
+    :global(.js) .menu__nav { flex-direction: column; gap: 0; }
+    :global(.js) .menu__actions { flex-direction: column; align-items: stretch; gap: 8px; }
+    :global(.js) .menu__actions .btn { width: 100%; }
+    :global(.js) .login { justify-content: center; }
+  }
+</style>
