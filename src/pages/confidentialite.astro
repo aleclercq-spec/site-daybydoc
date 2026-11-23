@@ -1,0 +1,9 @@
+---
+import { getEntry, render } from "astro:content";
+import Legal from "../layouts/Legal.astro";
+const entry = (await getEntry("legal", "confidentialite"))!;
+const { Content } = await render(entry);
+---
+<Legal title="Politique de confidentialité - DaybyDoc" description="Données personnelles collectées sur daybydoc.fr, finalités, durées de conservation et exercice de vos droits.">
+  <Content />
+</Legal>

@@ -1,0 +1,17 @@
+---
+import Base from "../layouts/Base.astro";
+import Dot from "../components/ui/Dot.astro";
+---
+<Base title="Page introuvable - DaybyDoc" description="Cette page n'existe pas ou a été déplacée." noindex>
+  <section class="simple container">
+    <h1>Page introuvable<Dot /></h1>
+    <p>La page que vous cherchez n'existe pas ou a été déplacée.</p>
+    <a class="btn" href="/">Retour à l'accueil</a>
+  </section>
+</Base>
+<style>
+  .simple { max-width: 760px; min-height: 60vh; padding: 120px var(--gutter); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 24px; }
+  h1 { font-size: 38px; line-height: 1.25; font-weight: 500; letter-spacing: -0.01em; color: var(--primary); }
+  p { font-size: 20px; line-height: 1.6; color: var(--neutral-6); }
+  @media (max-width: 767px) { .simple { padding-block: 64px; } h1 { font-size: 28px; } p { font-size: 18px; } }
+</style>

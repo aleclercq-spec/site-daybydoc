@@ -1,0 +1,9 @@
+---
+import { getEntry, render } from "astro:content";
+import Legal from "../layouts/Legal.astro";
+const entry = (await getEntry("legal", "mentions-legales"))!;
+const { Content } = await render(entry);
+---
+<Legal title="Mentions légales - DaybyDoc" description="Mentions légales du site daybydoc.fr, édité par 9troisquarts.">
+  <Content />
+</Legal>

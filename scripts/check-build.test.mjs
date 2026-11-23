@@ -313,3 +313,40 @@ test("animations : classe js posée en ligne, révélation masquée seulement ap
   assert.match(css, /prefers-reduced-motion:\s*no-preference\)\s*\{[^@]*\.reveal-ready \[data-reveal\]/);
   assert.ok(!/(^|[}\s,])\[data-reveal\]\s*\{[^}]*opacity:\s*0/.test(css.replace(/\.reveal-ready \[data-reveal\]/g, "")), "[data-reveal] ne doit pas être masqué avant démarrage du script");
 });
+
+test("mentions légales : h1, sections, coordonnées, canonical", () => {
+  const $ = load("mentions-legales.html");
+  assert.equal($("h1").length, 1);
+  assert.equal($("h1").text(), "Mentions légales");
+  assert.deepEqual($("h2").map((_, e) => $(e).text()).get(), ["Éditeur du site", "Directeur de la publication", "Hébergement", "Propriété intellectuelle", "Crédits"]);
+  assert.match($("main").text(), /RCS Lille 522 385 749/);
+  assert.equal($('link[rel="canonical"]').attr("href"), "https://www.daybydoc.fr/mentions-legales");
+  assert.equal($("title").text(), "Mentions légales - DaybyDoc");
+});
+
+test("confidentialité : h1, tableaux, date de mise à jour encore à renseigner", () => {
+  const $ = load("confidentialite.html");
+  assert.equal($("h1").text(), "Politique de confidentialité");
+  assert.equal($("main table").length, 3);
+  assert.match($("main").text(), /Dernière mise à jour : \[date de mise en ligne\]/);
+  assert.equal($('link[rel="canonical"]').attr("href"), "https://www.daybydoc.fr/confidentialite");
+});
+
+test("merci et 404 : titre, retour accueil, ancres du menu absolues hors accueil", () => {
+  const m = load("merci.html");
+  assert.equal(m("h1").text(), "Merci, votre demande est bien envoyée");
+  assert.equal(m('main a[href="/"]').text().trim(), "Retour à l'accueil");
+  const n = load("404.html");
+  assert.equal(n("h1").text(), "Page introuvable");
+  assert.equal(n('main a[href="/"]').text().trim(), "Retour à l'accueil");
+  assert.deepEqual(n('header nav[aria-label="Sections de la page"] a').map((_, a) => n(a).attr("href")).get(),
+    ["/#fonctionnement", "/#regles", "/#profils", "/#temoignage", "/#faq"]);
+});
+
+test("sitemap : accueil et pages légales, sans merci ni 404", () => {
+  const files = readFileSync("dist/sitemap-0.xml", "utf8");
+  assert.match(files, /https:\/\/www\.daybydoc\.fr\/<\/loc>/);
+  assert.match(files, /\/mentions-legales</);
+  assert.match(files, /\/confidentialite</);
+  assert.ok(!/\/merci</.test(files) && !/\/404</.test(files));
+});
