@@ -250,3 +250,58 @@ test("déploiement : 5 étapes et CTA", () => {
   assert.deepEqual(s.find("ol > li h3").map((_, e) => $(e).text()).get(), ["Atelier de cadrage", "Paramétrage", "Formation", "Lancement", "Suivi"]);
   assert.equal(s.find('a.btn[href="#demo"]').text().trim(), "Demander une démo");
 });
+
+const QUESTIONS = [
+  "Notre ADOPS fonctionne différemment des autres. DaybyDoc peut-il s'adapter ?",
+  "La répartition est-elle vraiment équitable ?",
+  "Nos médecins sont-ils à l'aise avec ce type d'outil ?",
+  "DaybyDoc remplace-t-il Ordigard ?",
+  "Combien de temps faut-il pour démarrer ?",
+  "Que se passe-t-il si nous avons besoin d'une évolution ?",
+  "Nous avons un besoin très particulier. Pouvez-vous le développer ?",
+];
+
+test("faq : 7 questions, première ouverte, boutons reliés à leur panneau", () => {
+  const $ = home();
+  const s = $("section#faq");
+  assert.equal(s.find("h2").text(), "Questions fréquentes");
+  const btns = s.find("h3 > button[aria-expanded]");
+  assert.deepEqual(btns.map((_, e) => $(e).text().trim()).get(), QUESTIONS);
+  assert.deepEqual(btns.map((_, e) => $(e).attr("aria-expanded")).get(), ["true", "false", "false", "false", "false", "false", "false"]);
+  btns.each((_, b) => {
+    const panel = $(`#${$(b).attr("aria-controls")}`);
+    assert.equal(panel.length, 1);
+    assert.equal(panel.attr("aria-labelledby"), $(b).attr("id"));
+  });
+});
+
+test("faq : colonne gauche avec rassurances et contact", () => {
+  const $ = home();
+  const side = $("section#faq .faq__side");
+  assert.equal(side.find("li p:first-child").map((_, e) => $(e).text()).get().join("|"),
+    "Opérationnel en un à deux mois|Accompagné de bout en bout|Données protégées");
+  assert.equal(side.find('a[href="mailto:contact@dbyd.fr"]').text(), "contact@dbyd.fr");
+  assert.equal(side.find('a[href="#demo"]').text().trim(), "Demander une démo");
+});
+
+test("démo : champs étiquetés, zones d'erreur, options des listes, bouton submit", () => {
+  const $ = home();
+  const f = $("form[name=demo]");
+  const fields = { nom: "Nom et prénom", fonction: "Fonction", structure: "Structure", email: "E-mail", telephone: "Téléphone", "nombre-medecins": "Nombre de médecins", message: "Message" };
+  for (const [name, label] of Object.entries(fields)) {
+    const el = f.find(`[name="${name}"]`);
+    assert.equal(el.length, 1, name);
+    const l = f.find(`label[for="${el.attr("id")}"]`);
+    assert.equal(l.text().replace("*", "").trim(), label);
+    assert.equal(f.find(`#err-${name}`).length, 1, `zone d'erreur de ${name}`);
+    assert.equal(el.attr("aria-describedby"), `err-${name}`);
+  }
+  assert.equal(f.find('[name="email"]').attr("type"), "email");
+  assert.deepEqual(f.find('select[name="fonction"] option').map((_, e) => $(e).text()).get(),
+    ["Choisir", "Président", "Membre du bureau", "Coordinateur", "Secrétariat", "Médecin", "Autre"]);
+  assert.deepEqual(f.find('select[name="nombre-medecins"] option').map((_, e) => $(e).text()).get(),
+    ["Choisir", "Moins de 100", "100 à 300", "Plus de 300"]);
+  assert.equal(f.find('button[type="submit"]').text().trim(), "Demander une démo");
+  assert.equal(f.find('a[href="/confidentialite"]').text(), "politique de confidentialité");
+  assert.equal($("section#demo h2").text(), "Voyons ensemble comment DaybyDoc s'adapte à votre ADOPS ou votre organisation");
+});

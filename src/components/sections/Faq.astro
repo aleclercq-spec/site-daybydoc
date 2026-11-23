@@ -1,0 +1,93 @@
+---
+import Dot from "../ui/Dot.astro";
+
+const faq = [
+  ["Notre ADOPS fonctionne différemment des autres. DaybyDoc peut-il s'adapter ?", "Oui, c'est son principe. Plannings, créneaux, règlement intérieur et règles de répartition se paramètrent selon votre ADOPS. L'ADOPS85 et l'ADOPS59 utilisent le même socle avec des fonctionnements très différents."],
+  ["La répartition est-elle vraiment équitable ?", "L'algorithme répartit les gardes selon des règles que vous définissez et que les médecins connaissent. Vous gardez ensuite la main pour ajuster une garde si nécessaire."],
+  ["Nos médecins sont-ils à l'aise avec ce type d'outil ?", "L'application est pensée pour le téléphone et va à l'essentiel. Un médecin saisit ses indisponibilités en quelques minutes, sans formation."],
+  ["DaybyDoc remplace-t-il Ordigard ?", "Non, il le complète. DaybyDoc construit et fait vivre le planning, puis le transmet à Ordigard sans ressaisie."],
+  ["Combien de temps faut-il pour démarrer ?", "Entre un et deux mois entre l'atelier de cadrage et la première période de garde gérée dans DaybyDoc, selon vos spécificités."],
+  ["Que se passe-t-il si nous avons besoin d'une évolution ?", "L'abonnement comprend l'hébergement, la maintenance et des évolutions de l'outil. Les besoins plus importants se planifient avec vous."],
+  ["Nous avons un besoin très particulier. Pouvez-vous le développer ?", "Oui. Quand un besoin peut servir à d'autres ADOPS, il rejoint le socle de DaybyDoc et profite à tous. S'il est propre à votre organisation, notre équipe le conçoit et le développe pour vous, sur devis. C'est notre métier depuis 2010."],
+];
+const reassurances = [
+  { title: "Opérationnel en un à deux mois", text: "Du cadrage à la première période de garde.", icon: '<circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>' },
+  { title: "Accompagné de bout en bout", text: "Paramétrage, formation et suivi par notre équipe.", icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>' },
+  { title: "Données protégées", text: "Conformité RGPD, connexion par e-CPS.", icon: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path>' },
+];
+---
+<section class="section section--teal" id="faq" aria-labelledby="faq-titre">
+  <div class="container faq">
+    <div class="faq__side">
+      <h2 id="faq-titre">Questions fréquentes<Dot /></h2>
+      <p class="faq__intro">Les réponses aux questions que nous posent le plus souvent les bureaux d'ADOPS avant de se lancer.</p>
+      <div class="card faq__help">
+        <ul>
+          {reassurances.map((r) => (
+            <li>
+              <span class="faq__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={r.icon} /></span>
+              <div><p class="faq__help-title">{r.title}</p><p class="faq__help-text">{r.text}</p></div>
+            </li>
+          ))}
+        </ul>
+        <div class="faq__contact">
+          <p class="faq__help-title">Une autre question ?</p>
+          <p class="faq__contact-text">Écrivez-nous à <a href="mailto:contact@dbyd.fr">contact@dbyd.fr</a>, ou parlons-en lors d'une démo.</p>
+          <a class="btn btn--md" href="#demo">Demander une démo</a>
+        </div>
+      </div>
+    </div>
+    <div class="card faq__list">
+      {faq.map(([q, a], i) => (
+        <div class="faq__item">
+          <h3>
+            <button class="faq__btn" type="button" id={`faq-q-${i}`} aria-expanded={i === 0 ? "true" : "false"} aria-controls={`faq-a-${i}`}>
+              {q}
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#105064" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+            </button>
+          </h3>
+          <div class="faq__panel" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}><p>{a}</p></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .faq { display: flex; flex-wrap: wrap; gap: 40px 80px; }
+  .faq__side { flex: 1 1 280px; min-width: 0; align-self: flex-start; display: flex; flex-direction: column; gap: 28px; }
+  @media (min-width: 1100px) { .faq__side { position: sticky; top: 120px; } }
+  .faq__intro { font-size: 17px; line-height: 1.6; color: var(--c-muted); }
+  .faq__help { padding: 28px; }
+  .faq__help ul { display: flex; flex-direction: column; gap: 20px; }
+  .faq__help li { display: flex; gap: 14px; align-items: flex-start; }
+  .faq__icon {
+    flex: none; width: 40px; height: 40px; border-radius: 9999px; background: var(--primary-50); color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .faq__help-title { font-size: 16px; line-height: 1.4; font-weight: 600; color: var(--c-title); }
+  .faq__help-text { margin-top: 4px; font-size: 15px; line-height: 1.5; color: var(--c-muted); }
+  .faq__contact { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--neutral-3); }
+  .faq__contact-text { margin: 6px 0 16px; font-size: 15px; line-height: 1.5; color: var(--c-muted); }
+  .faq__contact-text a { font-weight: 500; }
+  .faq__list { flex: 2.4 1 600px; min-width: 0; overflow: hidden; }
+  .faq__item { border-bottom: 1px solid var(--neutral-3); }
+  .faq__item:last-child { border-bottom: 0; }
+  .faq__btn {
+    width: 100%; min-height: 64px; padding: 20px 28px; border: 0; background: #fff;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; text-align: left; cursor: pointer;
+    font-family: var(--font); font-size: 17px; line-height: 1.45; font-weight: 500; color: var(--primary-800);
+  }
+  .faq__btn:hover { background: var(--neutral-2); }
+  .faq__btn svg { flex: none; transition: transform 200ms; }
+  .faq__btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .faq__panel p { padding: 0 28px 24px; font-size: 16px; line-height: 1.65; color: var(--neutral-6); }
+  /* Panneaux repliés uniquement si JavaScript est actif (sans JS, tout est lisible) */
+  :global(.js) .faq__item:has(.faq__btn[aria-expanded="false"]) .faq__panel { display: none; }
+
+  @media (max-width: 767px) {
+    .faq { gap: 32px; }
+    .faq__intro, .faq__help { display: none; }
+    .faq__btn { padding: 18px 20px; font-size: 16px; }
+    .faq__panel p { padding-inline: 20px; }
+  }
+</style>

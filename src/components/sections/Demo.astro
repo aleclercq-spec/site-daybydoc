@@ -1,0 +1,96 @@
+---
+import Dot from "../ui/Dot.astro";
+
+const fonctions = ["Président", "Membre du bureau", "Coordinateur", "Secrétariat", "Médecin", "Autre"];
+const nombres = ["Moins de 100", "100 à 300", "Plus de 300"];
+---
+<section class="section section--white demo" id="demo" aria-labelledby="demo-titre">
+  <div class="container demo__inner">
+    <div class="demo__text">
+      <h2 id="demo-titre">Voyons ensemble comment DaybyDoc s'adapte à votre ADOPS ou votre organisation<Dot /></h2>
+      <p>En 30 minutes, nous vous montrons l'outil sur un cas proche du vôtre et répondons à vos questions. Sans engagement.</p>
+    </div>
+    <form class="card demo__form" name="demo" method="POST" action="/merci" data-netlify="true" netlify-honeypot="bot-field" aria-labelledby="demo-titre">
+      <input type="hidden" name="form-name" value="demo" />
+      <p hidden><label>Ne pas remplir ce champ : <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+      <div class="field">
+        <label for="f-nom">Nom et prénom <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-nom" name="nom" type="text" required autocomplete="name" aria-describedby="err-nom" />
+        <p class="field__error" id="err-nom" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="f-fonction">Fonction <span class="req" aria-hidden="true">*</span></label>
+        <select id="f-fonction" name="fonction" required aria-describedby="err-fonction">
+          <option value="">Choisir</option>
+          {fonctions.map((f) => <option value={f}>{f}</option>)}
+        </select>
+        <p class="field__error" id="err-fonction" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="f-structure">Structure <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-structure" name="structure" type="text" required placeholder="ex. ADOPS de la Somme" autocomplete="organization" aria-describedby="err-structure" />
+        <p class="field__error" id="err-structure" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="f-email">E-mail <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-email" name="email" type="email" required autocomplete="email" aria-describedby="err-email" />
+        <p class="field__error" id="err-email" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="f-tel">Téléphone</label>
+        <input id="f-tel" name="telephone" type="tel" autocomplete="tel" aria-describedby="err-telephone" />
+        <p class="field__error" id="err-telephone" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="f-nb">Nombre de médecins</label>
+        <select id="f-nb" name="nombre-medecins" aria-describedby="err-nombre-medecins">
+          <option value="">Choisir</option>
+          {nombres.map((n) => <option value={n}>{n}</option>)}
+        </select>
+        <p class="field__error" id="err-nombre-medecins" role="alert"></p>
+      </div>
+      <div class="field field--full">
+        <label for="f-msg">Message</label>
+        <textarea id="f-msg" name="message" rows="4" aria-describedby="err-message"></textarea>
+        <p class="field__error" id="err-message" role="alert"></p>
+      </div>
+      <div class="demo__submit">
+        <button class="btn" type="submit">Demander une démo</button>
+        <p>Vos données servent uniquement à vous recontacter. Voir notre <a href="/confidentialite">politique de confidentialité</a>.</p>
+      </div>
+    </form>
+  </div>
+</section>
+<style>
+  .demo__inner { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px 80px; }
+  .demo__text { flex: 1 1 380px; min-width: 0; padding-top: 16px; }
+  .demo h2 { font-size: 40px; }
+  .demo__text p { margin-top: 24px; font-size: 20px; line-height: 1.6; color: var(--neutral-6); }
+  .demo__form {
+    flex: 1.2 1 520px; min-width: 0; padding: 40px;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field--full, .demo__submit { grid-column: 1 / -1; }
+  .field label { font-size: 14px; line-height: 19px; font-weight: 500; color: var(--neutral-7); }
+  .req { color: var(--primary); }
+  .field input, .field select, .field textarea {
+    width: 100%; border: 1px solid var(--neutral-4); border-radius: var(--radius-md); background: #fff;
+    font-family: var(--font); font-size: 16px; color: var(--neutral-7);
+  }
+  .field input, .field select { height: 44px; padding: 0 14px; }
+  .field select { padding: 0 12px; }
+  .field textarea { padding: 12px 14px; line-height: 1.5; resize: vertical; }
+  .field [aria-invalid="true"] { border-color: #b3261e; }
+  .field__error { min-height: 0; font-size: 14px; line-height: 1.4; color: #b3261e; }
+  .field__error:empty { display: none; }
+  .demo__submit { display: flex; flex-direction: column; gap: 16px; margin-top: 4px; }
+  .demo__submit .btn { width: 100%; }
+  .demo__submit p { font-size: 14px; line-height: 1.55; color: var(--neutral-6); }
+  @media (max-width: 767px) {
+    .demo h2 { font-size: 28px; }
+    .demo__text p { font-size: 18px; }
+    .demo__form { padding: 24px; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  }
+</style>
