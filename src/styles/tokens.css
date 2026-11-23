@@ -1,0 +1,48 @@
+/* Tokens issus de kit/design-system/tokens.json (valeurs identiques aux maquettes). */
+:root {
+  --neutral-0: #ffffff;
+  --neutral-1: #fbfbfc;
+  --neutral-2: #f4f7f7;
+  --neutral-3: #dfe6e6;
+  --neutral-4: #c9d3d5;
+  --neutral-5: #8a939b; /* bordures et remplissages uniquement, jamais du texte */
+  --neutral-6: #545c64;
+  --neutral-7: #262626;
+  --primary: #105064;
+  --primary-50: #eaf3f2;
+  --primary-100: #d7e4e4;
+  --primary-300: #81a5bd;
+  --primary-700: #0c3e4e;
+  --primary-800: #082832;
+  --sidebar-text: #9fc7ce;
+  --coral: #f28c6f; /* accent graphique uniquement */
+
+  --ring: rgba(129, 165, 189, 0.5);
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  --shadow-card: 0 1px 3px rgba(16, 80, 100, 0.07);
+  --shadow-frame: 0 1px 3px rgba(16, 80, 100, 0.07), 0 12px 32px rgba(16, 80, 100, 0.08);
+
+  --font: "Poppins", system-ui, sans-serif;
+  --header-h: 72px;
+  --gutter: 24px;
+  --container: 1200px;
+
+  /* Couleurs de contenu : surchargées par .section--teal, réinitialisées par .card */
+  --c-heading: var(--primary);
+  --c-title: var(--primary-800);
+  --c-text: var(--neutral-7);
+  --c-muted: var(--neutral-6);
+  --c-link: var(--primary);
+  --btn-bg: var(--primary);
+  --btn-fg: #ffffff;
+  --btn-hover: var(--primary-700);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 16px;
+    --header-h: 64px;
+  }
+}

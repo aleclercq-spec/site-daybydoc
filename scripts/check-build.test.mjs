@@ -96,3 +96,21 @@ test("merci et 404 sont en noindex", () => {
   for (const f of ["merci.html", "404.html"])
     assert.match(load(f)('meta[name="robots"]').attr("content") ?? "", /noindex/);
 });
+
+test("polices : 4 woff2 locaux, 400 et 500 préchargés, font-display swap", () => {
+  for (const w of [400, 500, 600, 700])
+    assert.ok(existsSync(`dist/fonts/poppins-${w}.woff2`), `poppins-${w}.woff2 manquant`);
+  const $ = home();
+  const pre = $('link[rel="preload"][as="font"]').map((_, e) => $(e).attr("href")).get();
+  assert.deepEqual(pre.sort(), ["/fonts/poppins-400.woff2", "/fonts/poppins-500.woff2"]);
+  const css = readFileSync("src/styles/fonts.css", "utf8");
+  assert.equal((css.match(/font-display:\s*swap/g) ?? []).length, 4);
+});
+
+test("accueil : balises Open Graph et JSON-LD Organization + SoftwareApplication", () => {
+  const $ = home();
+  assert.equal($('meta[property="og:image"]').attr("content"), "https://www.daybydoc.fr/og-image.png");
+  assert.equal($('meta[property="og:title"]').attr("content"), TITLE);
+  const types = $('script[type="application/ld+json"]').map((_, e) => JSON.parse($(e).text())["@type"]).get();
+  assert.deepEqual(types.sort(), ["Organization", "SoftwareApplication"]);
+});
