@@ -14,7 +14,7 @@ interface Props {
 const {
   title,
   description,
-  canonical = Astro.url.pathname === "/" ? "https://www.daybydoc.fr/" : new URL(Astro.url.pathname, "https://www.daybydoc.fr").href,
+  canonical = new URL(Astro.url.pathname.replace(/(index)?\.html$/, "") || "/", "https://www.daybydoc.fr").href,
   noindex = false,
   ogImage = "https://www.daybydoc.fr/og-image.png",
   jsonLd = false,
