@@ -215,3 +215,38 @@ test("profils : 3 blocs desktop et accordéon mobile (premier ouvert)", () => {
   btns.each((_, b) => assert.ok($(`#${$(b).attr("aria-controls")}`).length, "aria-controls valide"));
   assert.equal(s.find(".prof-row li").length, 12);
 });
+
+test("intégrations : 5 éléments", () => {
+  const $ = home();
+  assert.deepEqual($("section#integrations li h3").map((_, e) => $(e).text()).get(), [
+    "Ordigard", "Connexion par e-CPS", "Agendas personnels", "Traçabilité", "Données protégées",
+  ]);
+});
+
+test("témoignage : vignette locale, lien Vimeo de repli, aucun iframe au chargement", () => {
+  const $ = home();
+  const s = $("section#temoignage");
+  assert.equal(s.find("h2").text(), "Ce qu'en dit l'ADOPS59");
+  assert.equal(s.find("iframe").length, 0);
+  const v = s.find(".video");
+  assert.equal(v.attr("data-vimeo"), "1202756436");
+  assert.equal(v.find('a.video__play[href="https://vimeo.com/1202756436"]').attr("aria-label"), "Lire la vidéo du témoignage de l'ADOPS59");
+  assert.equal(v.find('img[alt^="Nicolas Ryckewaert"]').length, 1);
+  assert.match(v.text(), /Vidéo sous-titrée/);
+  assert.match(s.find("blockquote").text(), /On a eu affaire à des gens qui savent de quoi ils parlent\./);
+});
+
+test("équipe : lien 9troisquarts, photo et logo", () => {
+  const $ = home();
+  const s = $("section#equipe");
+  assert.equal(s.find('a[href="https://9tq.fr"]').text().trim(), "Découvrir 9troisquarts");
+  assert.equal(s.find('img[alt="L\'équipe 9troisquarts au travail dans ses locaux"]').length, 1);
+  assert.equal(s.find('img[alt="9troisquarts"]').length, 1);
+});
+
+test("déploiement : 5 étapes et CTA", () => {
+  const $ = home();
+  const s = $("section#deploiement");
+  assert.deepEqual(s.find("ol > li h3").map((_, e) => $(e).text()).get(), ["Atelier de cadrage", "Paramétrage", "Formation", "Lancement", "Suivi"]);
+  assert.equal(s.find('a.btn[href="#demo"]').text().trim(), "Demander une démo");
+});

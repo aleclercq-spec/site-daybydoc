@@ -1,0 +1,54 @@
+---
+import Dot from "../ui/Dot.astro";
+const steps = [
+  ["Atelier de cadrage", "Nous passons en revue vos plannings, vos créneaux et votre règlement intérieur."],
+  ["Paramétrage", "Nous configurons DaybyDoc selon vos règles et importons vos médecins."],
+  ["Formation", "Une session pour le bureau et le secrétariat, un guide simple pour les médecins."],
+  ["Lancement", "Votre première période de garde se prépare dans DaybyDoc, avec nous à vos côtés."],
+  ["Suivi", "Hébergement, maintenance et évolutions de l'outil sont inclus dans un abonnement mensuel."],
+];
+---
+<section class="section section--white" id="deploiement" aria-labelledby="de-titre">
+  <div class="container">
+    <h2 id="de-titre">Opérationnel en un à deux mois, accompagné de bout en bout<Dot /></h2>
+    <ol class="frise">
+      <li class="frise__line" aria-hidden="true"></li>
+      {steps.map(([title, text], i) => (
+        <li class="frise__step">
+          <span class:list={["frise__mark", { "frise__mark--first": i === 0 }]} aria-hidden="true"></span>
+          <p class="frise__n">Étape {i + 1}</p>
+          <h3>{title}</h3>
+          <p class="frise__text">{text}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="deploiement__cta"><a class="btn" href="#demo">Demander une démo</a></div>
+  </div>
+</section>
+<style>
+  .deploiement__cta { margin-top: 64px; display: flex; justify-content: flex-end; }
+  .container h2 { max-width: 760px; }
+  .frise { position: relative; margin-top: 72px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 32px; }
+  .frise__line { position: absolute; left: 0; right: 0; top: 38px; height: 3px; border-radius: 9999px; background: var(--primary); }
+  .frise__step { position: relative; min-width: 0; padding-top: 64px; display: block; }
+  .frise__mark {
+    position: absolute; left: 0; top: 33px; width: 13px; height: 13px; border-radius: 9999px;
+    background: #fff; border: 2.5px solid var(--primary);
+  }
+  .frise__mark--first { top: 6px; width: 26px; height: 26px; background: var(--coral); border: 0; }
+  .frise__n { font-size: 14px; font-weight: 600; color: var(--primary); }
+  .frise h3 { margin-top: 6px; font-size: 18px; line-height: 1.4; font-weight: 600; color: var(--primary-800); }
+  .frise__text { margin-top: 10px; font-size: 15px; line-height: 1.6; color: var(--neutral-6); }
+
+  /* Frise verticale en dessous de 1024 px (5 colonnes trop étroites en tablette) */
+  @media (max-width: 1023px) {
+    .frise { margin-top: 40px; grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+    .frise__line { left: 6px; right: auto; top: 8px; bottom: 8px; width: 3px; height: auto; }
+    .frise__step { padding: 0 0 0 44px; }
+    .frise__mark { left: 1px; top: 6px; }
+    .frise__mark--first { left: -5px; top: 0; }
+  }
+  @media (max-width: 767px) {
+    .deploiement__cta .btn { width: 100%; }
+  }
+</style>

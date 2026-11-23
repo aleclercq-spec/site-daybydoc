@@ -1,0 +1,58 @@
+---
+import { Image } from "astro:assets";
+import Dot from "../ui/Dot.astro";
+import vignette from "../../assets/vignette-video-adops59.jpg";
+---
+<section class="section section--white" id="temoignage" aria-labelledby="te-titre">
+  <div class="container">
+    <h2 id="te-titre">Ce qu'en dit l'ADOPS59<Dot /></h2>
+    <div class="temo">
+      <figure class="temo__media">
+        <div class="video" data-vimeo="1202756436" data-title="Témoignage de l'ADOPS59">
+          <Image src={vignette} alt="Nicolas Ryckewaert, médecin généraliste à Croix, membre de l'ADOPS59"
+            widths={[480, 720, 960]} sizes="(min-width: 1100px) 640px, 100vw" format="webp" quality={80} loading="lazy" />
+          <a class="video__play" href="https://vimeo.com/1202756436" aria-label="Lire la vidéo du témoignage de l'ADOPS59">
+            <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"></path></svg>
+          </a>
+          <span class="video__badge">Vidéo sous-titrée</span>
+        </div>
+        <figcaption>L'ADOPS59 organise sa régulation médicale avec DaybyDoc depuis plus de trois ans.</figcaption>
+      </figure>
+      <blockquote class="temo__quote">
+        <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#105064" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>
+        <p>On a eu affaire à des gens qui savent de quoi ils parlent.</p>
+        <footer><span>Nicolas Ryckewaert</span><br />Médecin membre de l'ADOPS59</footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+<style>
+  .temo { margin-top: 56px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px 72px; }
+  .temo__media { flex: 1.25 1 520px; min-width: 0; }
+  .video {
+    position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); overflow: hidden;
+    background: var(--primary-700); box-shadow: var(--shadow-card);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .video :global(.video__play) {
+    position: relative; z-index: 1; width: 76px; height: 76px; border-radius: 9999px; border: 0;
+    background: #fff; color: var(--primary); cursor: pointer; box-shadow: var(--shadow-card);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video :global(.video__play:hover) { background: var(--primary-50); color: var(--primary); }
+  .video__badge {
+    position: absolute; right: 16px; bottom: 14px; padding: 4px 10px; border-radius: 9999px;
+    background: rgba(8, 40, 50, 0.7); font-size: 12px; font-weight: 500; color: #fff;
+  }
+  .video :global(.video__frame) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  figcaption { margin-top: 16px; font-size: 15px; line-height: 1.55; color: var(--neutral-6); }
+  .temo__quote { flex: 1 1 380px; min-width: 0; }
+  .temo__quote p { margin-top: 20px; font-size: 30px; line-height: 1.35; font-weight: 400; letter-spacing: -0.01em; color: var(--primary-800); }
+  .temo__quote footer { margin-top: 28px; font-size: 16px; line-height: 1.5; color: var(--neutral-6); }
+  .temo__quote footer span { font-weight: 600; color: var(--neutral-7); }
+  @media (max-width: 767px) {
+    .temo { margin-top: 32px; gap: 32px; }
+    .temo__quote p { font-size: 24px; }
+  }
+</style>
