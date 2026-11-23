@@ -149,3 +149,34 @@ test("pied de page : logo blanc, liens, contact, mention 9troisquarts", () => {
 test("barre CTA mobile : lien vers #demo", () => {
   assert.equal(home()('.sticky-cta a[href="#demo"]').text().trim(), "Demander une démo");
 });
+
+test("hero : h1 exact, image principale prioritaire, CTA et lien témoignage", () => {
+  const $ = home();
+  const hero = $("section#hero");
+  assert.equal(hero.attr("aria-labelledby"), "hero-titre");
+  assert.equal($("h1#hero-titre").text().replace(/\s+/g, " ").trim(), "Vos plannings, répartis automatiquement, selon vos règles");
+  assert.equal($("h1 strong").text(), "vos règles");
+  const img = hero.find('img[alt^="Planning mensuel des gardes"]');
+  assert.equal(img.attr("loading"), "eager");
+  assert.equal(img.attr("fetchpriority"), "high");
+  assert.equal(hero.find('a[href="#demo"]').text().trim(), "Demander une démo");
+  assert.equal(hero.find('a[href="#temoignage"]').text().trim(), "Voir le témoignage de l'ADOPS59");
+});
+
+test("preuves : deux articles ADOPS85 et ADOPS59 avec leurs chiffres", () => {
+  const $ = home();
+  const s = $("section#preuves");
+  assert.equal(s.find("h2").length, 1);
+  assert.deepEqual(s.find("article h3").map((_, e) => $(e).text()).get(), ["ADOPS85 - Vendée", "ADOPS59 - Nord"]);
+  assert.deepEqual(s.find("article .stat__num").map((_, e) => $(e).text()).get(), ["+500", "11", "3", "50", "3"]);
+});
+
+test("avant/après : tableau ARIA de 6 lignes, 2 colonnes", () => {
+  const $ = home();
+  const t = $('section#avant-apres [role="table"]');
+  assert.equal(t.length, 1);
+  assert.deepEqual(t.find('[role="columnheader"]').map((_, e) => $(e).text().replace(/\s+/g, " ").trim()).get(), ["Avant", "Avec"]);
+  assert.equal(t.find('[role="row"]').length, 7);
+  assert.equal(t.find('[role="cell"]').length, 12);
+  assert.equal(t.find('[role="columnheader"] img[alt="DaybyDoc"]').length, 1);
+});

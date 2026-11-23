@@ -1,0 +1,76 @@
+---
+import Dot from "../ui/Dot.astro";
+import logo from "../../assets/logo-daybydoc-blanc.svg";
+
+const rows = [
+  ["Les indisponibilités arrivent par mail, SMS et téléphone.", "Chaque médecin saisit les siennes, depuis son téléphone ou son ordinateur, avant la date limite."],
+  ["Le planning se construit à la main, sur plusieurs journées ou soirées.", "L'algorithme répartit les gardes en quelques minutes, selon vos règles."],
+  ["La répartition des gardes est parfois opaque.", "Les gardes sont réparties équitablement, selon des règles connues de tous."],
+  ["Les échanges se négocient dans un groupe WhatsApp.", "Échanges et libérations se font dans l'outil, le planning reste à jour."],
+  ["Une garde vacante, c'est une série d'appels.", "Les médecins sont prévenus et le premier disponible la prend en un clic."],
+  ["Difficile de retrouver l'historique des changements.", "Toutes les actions, tous les changements sont traçables pour conserver un historique précis."],
+];
+---
+<section class="section section--teal aa" id="avant-apres" aria-labelledby="aa-titre">
+  <div class="container">
+    <h2 id="aa-titre">Votre planning ne devrait pas tenir à un tableur et à beaucoup de bonne volonté<Dot /></h2>
+    <div class="aa__table" role="table" aria-label="Avant et avec DaybyDoc">
+      <div role="rowgroup" class="aa__group">
+        <div role="row" class="aa__group">
+          <div role="columnheader" class="aa__head aa__head--before">Avant</div>
+          <div role="columnheader" class="aa__head aa__head--after">Avec <img src={logo.src} alt="DaybyDoc" width="149" height="34" /></div>
+        </div>
+      </div>
+      <div role="rowgroup" class="aa__group">
+        {rows.map(([before, after]) => (
+          <div role="row" class="aa__group">
+            <div role="cell" class="aa__cell aa__cell--before" data-label="Avant"><span aria-hidden="true" class="aa__bullet"></span>{before}</div>
+            <div role="cell" class="aa__cell aa__cell--after" data-label="Avec DaybyDoc"><span aria-hidden="true" class="aa__bullet"></span>{after}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .aa { padding-block: 120px; border-top: 0; }
+  .aa h2 { max-width: 820px; }
+  .aa__table { margin-top: 56px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  .aa__group { display: contents; }
+  .aa__head {
+    padding: 32px 36px 24px; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    font-size: 26px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em;
+  }
+  .aa__head--before { background: var(--neutral-2); color: var(--neutral-6); }
+  .aa__head--after { background: var(--primary-800); color: #fff; display: flex; align-items: center; gap: 14px; }
+  .aa__head img { display: block; height: 34px; width: auto; }
+  .aa__cell { padding: 22px 36px; display: flex; gap: 16px; font-size: 16px; line-height: 1.55; }
+  .aa__cell--before { background: var(--neutral-2); border-top: 1px solid var(--neutral-3); color: var(--neutral-6); }
+  .aa__cell--after { background: var(--primary-800); border-top: 1px solid rgba(255, 255, 255, 0.16); color: #fff; }
+  .aa__bullet { flex: none; margin-top: 8px; width: 10px; height: 10px; border-radius: 9999px; box-sizing: border-box; }
+  .aa__cell--before .aa__bullet { border: 1.5px solid var(--neutral-5); }
+  .aa__cell--after .aa__bullet { margin-top: 7px; width: 11px; height: 11px; background: var(--coral); }
+  [role="row"]:last-child > .aa__cell { padding-bottom: 32px; }
+  [role="row"]:last-child > .aa__cell--before { border-radius: 0 0 0 var(--radius-lg); }
+  [role="row"]:last-child > .aa__cell--after { border-radius: 0 0 var(--radius-lg) 0; }
+
+  @media (max-width: 767px) {
+    .aa { padding-block: 64px; }
+    .aa__table { margin-top: 32px; display: block; }
+    .aa__group { display: block; }
+    .aa__head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); padding: 0; }
+    .aa__cell { flex-wrap: wrap; row-gap: 6px; padding: 16px 20px; }
+    .aa__cell::before {
+      content: attr(data-label); flex-basis: 100%;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .aa__cell--before { margin-top: 14px; border-top: 0; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .aa__cell--before::before { color: var(--neutral-6); }
+    .aa__cell--after { border-top: 0; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+    .aa__cell--after::before { color: #97d3c1; }
+    .aa__bullet { display: none; }
+    [role="row"]:last-child > .aa__cell { padding-bottom: 16px; }
+    [role="row"]:last-child > .aa__cell--before { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    [role="row"]:last-child > .aa__cell--after { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+  }
+</style>

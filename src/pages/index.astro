@@ -1,9 +1,16 @@
 ---
 import Base from "../layouts/Base.astro";
+import Hero from "../components/sections/Hero.astro";
+import Preuves from "../components/sections/Preuves.astro";
+import AvantApres from "../components/sections/AvantApres.astro";
 ---
 <Base
   title="DaybyDoc - Planning des gardes ADOPS et maisons médicales"
   description="Planning des gardes pour ADOPS, maisons médicales et associations de régulation : répartition automatique selon vos règles, échanges et gardes vacantes."
   jsonLd
   stickyCta
-/>
+>
+  <Hero />
+  <Preuves />
+  <AvantApres />
+</Base>

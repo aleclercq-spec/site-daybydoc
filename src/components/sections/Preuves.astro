@@ -1,0 +1,53 @@
+---
+import Dot from "../ui/Dot.astro";
+---
+<section class="section section--white preuves" id="preuves" aria-labelledby="preuves-titre">
+  <div class="container">
+    <h2 id="preuves-titre">Ils organisent leur permanence des soins avec DaybyDoc<Dot /></h2>
+    <div class="preuves__cards">
+      <article class="preuves__card preuves__card--wide" aria-labelledby="adops85">
+        <h3 id="adops85">ADOPS85 - Vendée</h3>
+        <div class="stats stats--3">
+          <div class="stat"><p class="stat__num">+500</p><p class="stat__label">médecins</p></div>
+          <div class="stat"><p class="stat__num">11</p><p class="stat__label">plannings interdépendants, gérés ensemble</p></div>
+          <div class="stat"><p class="stat__num">3</p><p class="stat__label">types de garde : secteur, mobile, régulation</p></div>
+        </div>
+      </article>
+      <article class="preuves__card" aria-labelledby="adops59">
+        <h3 id="adops59">ADOPS59 - Nord</h3>
+        <div class="stats stats--2">
+          <div class="stat"><p class="stat__num">50</p><p class="stat__label">médecins</p></div>
+          <div class="stat"><p class="stat__num">3</p><p class="stat__label">ans d'utilisation</p></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+<style>
+  .preuves { padding-block: 104px; }
+  .preuves h2 { max-width: 760px; }
+  .preuves__cards { margin-top: 56px; display: flex; flex-wrap: wrap; align-items: stretch; gap: 24px; }
+  .preuves__card {
+    flex: 1 1 360px; min-width: 0; padding: 36px 40px;
+    background: var(--primary-50); border: 1px solid var(--primary-100); border-radius: var(--radius-lg);
+  }
+  .preuves__card--wide { flex: 1.7 1 600px; }
+  .preuves__card h3 {
+    padding-bottom: 20px; border-bottom: 1px solid var(--neutral-4);
+    font-size: 20px; line-height: 1.4; font-weight: 600; color: var(--primary-800);
+  }
+  .stats { margin-top: 32px; display: grid; gap: 24px; }
+  .stats--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stats--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat__num { font-size: 56px; line-height: 1; font-weight: 600; letter-spacing: -0.02em; color: var(--primary); }
+  .stat__label { margin-top: 14px; font-size: 16px; line-height: 1.5; color: var(--primary); }
+
+  @media (max-width: 767px) {
+    .preuves { padding-block: 64px; }
+    .preuves__card { padding: 28px 24px; }
+    .stats { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 20px; }
+    .stat { display: flex; align-items: baseline; gap: 14px; }
+    .stat__num { font-size: 40px; flex: none; }
+    .stat__label { margin: 0; }
+  }
+</style>

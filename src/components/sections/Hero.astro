@@ -1,0 +1,57 @@
+---
+import Dot from "../ui/Dot.astro";
+import BrowserFrame from "../ui/BrowserFrame.astro";
+import PhoneFrame from "../ui/PhoneFrame.astro";
+import planning from "../../assets/capture-hero-planning.png";
+import mobile from "../../assets/capture-hero-mobile.png";
+---
+<section class="section section--teal hero" id="hero" aria-labelledby="hero-titre">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <p class="hero__eyebrow">Logiciel de planning des gardes pour les ADOPS, maisons médicales et associations de régulation</p>
+      <h1 id="hero-titre">Vos plannings, répartis automatiquement, selon <strong>vos règles</strong><Dot /></h1>
+      <p class="hero__lead">DaybyDoc se paramètre selon le fonctionnement de votre ADOPS : plannings, créneaux, règlement intérieur, règles de répartition. Il répartit ensuite les gardes automatiquement, gère les échanges et les gardes vacantes, et transmet le planning à Ordigard. Fini les casse-têtes, tout le monde gagne du temps.</p>
+      <div class="hero__actions">
+        <a class="btn" href="#demo">Demander une démo</a>
+        <a class="hero__video" href="#temoignage">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>Voir le témoignage de l'ADOPS59
+        </a>
+      </div>
+    </div>
+    <div class="hero__visual">
+      <BrowserFrame src={planning} variant="address" alt="Planning mensuel des gardes dans DaybyDoc, vue ordinateur"
+        sizes="(min-width: 1100px) 700px, 100vw" widths={[640, 960, 1280]} loading="eager" fetchpriority="high" />
+      <div class="hero__phone">
+        <PhoneFrame src={mobile} alt="Planning des gardes dans DaybyDoc, vue mobile" loading="eager" />
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .hero { padding: 96px var(--gutter) 128px; border-top: 0; }
+  .hero__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 64px; }
+  .hero__text { flex: 1 1 420px; max-width: 500px; min-width: 0; }
+  .hero__eyebrow { font-size: 15px; font-weight: 500; letter-spacing: 0.01em; color: var(--c-text); }
+  h1 {
+    margin: 20px 0 28px; font-size: 56px; line-height: 1.14; font-weight: 500;
+    letter-spacing: -0.02em; color: var(--c-heading);
+  }
+  h1 strong { font-weight: 700; }
+  .hero__lead { font-size: 20px; line-height: 1.6; color: var(--c-muted); }
+  .hero__actions { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; }
+  .hero__video {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+    font-size: 16px; font-weight: 500; color: var(--c-link); text-decoration: none;
+  }
+  .hero__video:hover { color: var(--c-link); text-decoration: underline; }
+  .hero__visual { flex: 1.4 1 520px; min-width: 0; position: relative; padding: 0 0 56px 64px; }
+  .hero__phone { position: absolute; left: 0; bottom: 0; width: 26%; min-width: 150px; }
+
+  @media (max-width: 767px) {
+    .hero { padding-block: 64px; }
+    h1 { font-size: 38px; line-height: 1.15; margin: 16px 0 20px; }
+    .hero__lead { font-size: 18px; }
+    .hero__actions { margin-top: 28px; }
+    .hero__visual { padding: 0 0 32px 32px; }
+  }
+</style>
