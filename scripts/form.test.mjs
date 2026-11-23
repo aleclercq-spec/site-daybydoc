@@ -57,6 +57,16 @@ test("formulaire valide : envoi laissé au navigateur (non bloqué), aucune erre
   for (const n of ["nom", "fonction", "structure", "email"]) assert.equal(err(n), "");
 });
 
+test("champ obligatoire rempli d'espaces : traité comme vide, envoi bloqué", () => {
+  fill({ ...VALID, nom: "   ", structure: "\t " });
+  assert.equal(mod.messageFor($("nom")), "Merci de renseigner ce champ.");
+  const e = submit();
+  assert.equal(e.defaultPrevented, true);
+  assert.equal(err("nom"), "Merci de renseigner ce champ.");
+  assert.equal(err("structure"), "Merci de renseigner ce champ.");
+  assert.equal(err("email"), "");
+});
+
 test("honeypot rempli : aucun envoi", () => {
   fill(VALID);
   $("bot-field").value = "spam";

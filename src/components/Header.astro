@@ -52,8 +52,11 @@ const links = [
   .menu__nav a:hover { color: var(--primary); }
   .menu__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; }
 
-  /* En dessous de 1024 px : menu replié (si JavaScript actif) */
+  /* En dessous de 1024 px : menu replié (si JavaScript actif).
+     Sans JavaScript le menu reste déplié : l'en-tête ne doit alors pas rester collant. */
   @media (max-width: 1023px) {
+    .site-header { position: static; }
+    :global(.js) .site-header { position: sticky; }
     :global(.js) .site-header__inner { flex-wrap: wrap; justify-content: space-between; gap: 0; }
     :global(.js) .burger {
       display: flex; align-items: center; justify-content: center;

@@ -42,6 +42,19 @@ try {
   src === "https://player.vimeo.com/video/1202756436?dnt=1&autoplay=1" ? ok("iframe Vimeo (dnt=1) injectée au clic") : fail(`src iframe inattendu : ${src}`);
   await page.close();
 
+  // 2 bis. Sans JavaScript en mobile : l'en-tête déplié ne doit pas rester collant
+  for (const width of [320, 390]) {
+    const p = await browser.newPage();
+    await p.setJavaScriptEnabled(false);
+    await p.setViewport({ width, height: 700 });
+    await p.goto(BASE, { waitUntil: "load" });
+    const { pos, h } = await p.$eval("header", (el) => ({ pos: getComputedStyle(el).position, h: el.getBoundingClientRect().height }));
+    pos === "sticky" && h > 120
+      ? fail(`sans JS @${width}px : en-tête collant de ${Math.round(h)} px (masque les titres d'ancre)`)
+      : ok(`sans JS @${width}px : en-tête non bloquant (${pos}, ${Math.round(h)} px)`);
+    await p.close();
+  }
+
   // 3. Pas de défilement horizontal
   for (const path of ["/", "/merci", "/mentions-legales", "/confidentialite", "/introuvable"]) {
     for (const width of [320, 390, 768, 900, 1024, 1100, 1440]) {
