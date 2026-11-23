@@ -1,0 +1,64 @@
+---
+import { Image } from "astro:assets";
+import Dot from "../ui/Dot.astro";
+import detail from "../../assets/capture-detail-garde.png";
+
+const cards = [
+  ["Vos plannings", "Garde de secteur, médecins mobiles, régulation : autant de plannings que nécessaire, chacun avec ses médecins et ses référents. Les plannings sont liés entre eux : un médecin inscrit sur plusieurs plannings n'est jamais positionné deux fois au même moment."],
+  ["Vos créneaux", "Horaires par jour de semaine, week-ends, jours fériés et ponts que vous définissez vous-mêmes, périodes de renfort, créneaux partiels."],
+  ["Votre règlement intérieur", "Le document et les règles affichées aux médecins, à accepter avant toute utilisation. Mise à jour quand nécessaire, en quelques clics."],
+  ["Votre algorithme", "Les priorités de répartition, les temps de repos, les enchaînements interdits, les jours obligatoires, les délais de libération."],
+];
+---
+<section class="section section--teal" id="regles" aria-labelledby="vr-titre">
+  <div class="container">
+    <div class="regles__intro">
+      <h2 id="vr-titre">Votre ADOPS a ses règles. DaybyDoc les applique<Dot /></h2>
+      <p>Chaque ADOPS fonctionne différemment. DaybyDoc ne vous impose pas un fonctionnement : il se paramètre selon le vôtre, sur un socle déjà éprouvé par deux ADOPS.</p>
+    </div>
+    <div class="regles__body">
+      <div class="regles__cards">
+        {cards.map(([title, text]) => (
+          <div class="card regles__card">
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </div>
+        ))}
+      </div>
+      <div class="card regles__shot">
+        <div class="regles__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="regles__img">
+          <Image src={detail} alt="Détail d'une garde dans DaybyDoc : rémunération, places et médecins positionnés" widths={[440, 570]} sizes="(min-width: 1100px) 500px, 100vw" format="webp" quality={85} loading="lazy" />
+        </div>
+      </div>
+    </div>
+    <p class="regles__more">Et si une règle manque, notre équipe fait évoluer DaybyDoc avec vous.</p>
+  </div>
+</section>
+<style>
+  .regles__intro { max-width: 760px; }
+  .regles__intro p { margin-top: 20px; font-size: 20px; line-height: 1.6; color: var(--c-muted); }
+  .regles__body { margin-top: 56px; display: flex; flex-wrap: wrap; align-items: stretch; gap: 32px; }
+  .regles__cards { flex: 1.15 1 520px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .regles__card { padding: 28px; }
+  .regles__card h3 { font-size: 17px; line-height: 1.4; font-weight: 600; color: var(--c-title); }
+  .regles__card p { margin-top: 10px; font-size: 15px; line-height: 1.6; color: var(--c-muted); }
+  .regles__shot { flex: 1 1 440px; min-width: 0; min-height: 460px; overflow: hidden; display: flex; flex-direction: column; }
+  .regles__bar {
+    flex: none; height: 36px; display: flex; align-items: center; gap: 6px; padding: 0 14px;
+    background: var(--neutral-2); border-bottom: 1px solid var(--neutral-3);
+  }
+  .regles__bar span { width: 10px; height: 10px; border-radius: 9999px; background: var(--neutral-4); }
+  .regles__img { flex: 1; padding: 16px; display: flex; }
+  .regles__img :global(img) {
+    flex: 1; min-height: 0; width: 100%; object-fit: contain; object-position: left top; border-radius: var(--radius-md);
+  }
+  .regles__more { margin-top: 40px; font-size: 18px; line-height: 1.6; font-weight: 500; color: var(--c-text); }
+  @media (max-width: 767px) {
+    .regles__intro p { font-size: 18px; }
+    .regles__body { margin-top: 32px; }
+    .regles__cards { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .regles__card { padding: 22px; }
+    .regles__shot { min-height: 300px; }
+  }
+</style>

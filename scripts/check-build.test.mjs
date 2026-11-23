@@ -180,3 +180,38 @@ test("avant/après : tableau ARIA de 6 lignes, 2 colonnes", () => {
   assert.equal(t.find('[role="cell"]').length, 12);
   assert.equal(t.find('[role="columnheader"] img[alt="DaybyDoc"]').length, 1);
 });
+
+test("comment ça marche : 3 étapes numérotées avec capture", () => {
+  const $ = home();
+  const s = $("section#fonctionnement");
+  assert.equal(s.find("h2").text(), "Trois temps, une seule application");
+  assert.deepEqual(s.find("ol > li h3").map((_, e) => $(e).text()).get(), [
+    "Les médecins posent leurs indisponibilités.", "DaybyDoc répartit les gardes.", "La garde vit sans vous solliciter.",
+  ]);
+  assert.equal(s.find("ol > li img").length, 3);
+});
+
+test("vos règles : 4 cartes, capture, phrase de clôture", () => {
+  const $ = home();
+  const s = $("section#regles");
+  assert.deepEqual(s.find(".card h3").map((_, e) => $(e).text()).get(), [
+    "Vos plannings", "Vos créneaux", "Votre règlement intérieur", "Votre algorithme",
+  ]);
+  assert.equal(s.find('img[alt^="Détail d\'une garde"]').length, 1);
+  assert.match(s.text(), /Et si une règle manque, notre équipe fait évoluer DaybyDoc avec vous\./);
+});
+
+test("profils : 3 blocs desktop et accordéon mobile (premier ouvert)", () => {
+  const $ = home();
+  const s = $("section#profils");
+  assert.deepEqual(s.find(".prof-row h3").map((_, e) => $(e).text()).get(), [
+    "Les médecins gardent la main sur leurs gardes",
+    "Le bureau pilote, sans courir après personne",
+    "Le secrétariat suit tout, sans ressaisie",
+  ]);
+  const btns = s.find("button[aria-expanded]");
+  assert.deepEqual(btns.map((_, e) => $(e).text().trim()).get(), ["Le bureau et la coordination", "Le secrétariat", "Les médecins"]);
+  assert.deepEqual(btns.map((_, e) => $(e).attr("aria-expanded")).get(), ["true", "false", "false"]);
+  btns.each((_, b) => assert.ok($(`#${$(b).attr("aria-controls")}`).length, "aria-controls valide"));
+  assert.equal(s.find(".prof-row li").length, 12);
+});

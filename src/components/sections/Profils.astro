@@ -1,0 +1,143 @@
+---
+import { Image } from "astro:assets";
+import Dot from "../ui/Dot.astro";
+import BrowserFrame from "../ui/BrowserFrame.astro";
+import indispos from "../../assets/capture-indispos-recurrentes.png";
+import souhaitees from "../../assets/capture-gardes-souhaitees.png";
+import vacantes from "../../assets/capture-gardes-vacantes.png";
+import notifications from "../../assets/capture-notifications.png";
+
+const profils = [
+  {
+    id: "medecins", surtitre: "Les médecins", titre: "Les médecins gardent la main sur leurs gardes",
+    image: indispos, alt: "Indisponibilités récurrentes d'un médecin dans DaybyDoc, sous forme de semaine type",
+    overlay: { image: souhaitees, alt: "Gardes souhaitées : le médecin indique combien de gardes il souhaite faire par mois" },
+    items: [
+      "Déclarez vos indisponibilités ponctuelles sur un calendrier, et les récurrentes une fois pour toutes avec une semaine type.",
+      "Indiquez combien de gardes vous souhaitez faire chaque mois : la répartition s'en sert comme objectif.",
+      "Échangez, libérez ou prenez une garde vacante sans passer par personne.",
+      "Retrouvez vos gardes dans votre agenda et consultez leur facturation.",
+    ],
+    imageLeft: true,
+  },
+  {
+    id: "bureau", surtitre: "Le bureau et la coordination", titre: "Le bureau pilote, sans courir après personne",
+    image: vacantes, alt: "Suivi des gardes vacantes dans DaybyDoc",
+    items: [
+      "Pilotez tous vos plannings depuis un seul espace.",
+      "Lancez la répartition et publiez le planning.",
+      "Suivez les gardes vacantes et intervenez quand il le faut.",
+      "Retrouvez l'historique de chaque modification.",
+    ],
+    imageLeft: false,
+  },
+  {
+    id: "secretariat", surtitre: "Le secrétariat", titre: "Le secrétariat suit tout, sans ressaisie",
+    image: notifications, alt: "Notifications des échanges et libérations de garde dans DaybyDoc",
+    items: [
+      "Gérez les médecins inscrits, leurs informations et leurs adhésions.",
+      "Recevez en copie les échanges et les libérations de garde.",
+      "Préparez la facturation sans ressaisie.",
+      "Répondez aux questions avec un planning toujours à jour.",
+    ],
+    imageLeft: true,
+  },
+];
+// Ordre de l'accordéon mobile : bureau, secrétariat, médecins (maquette mobile).
+const accordion = ["bureau", "secretariat", "medecins"].map((id) => profils.find((p) => p.id === id)!);
+const check = `<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#105064" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"></path></svg>`;
+---
+<section class="section section--white" id="profils" aria-labelledby="pp-titre">
+  <div class="container">
+    <h2 id="pp-titre">Pratique pour l'organisation, utile pour tous<span class="desk"><Dot /></span></h2>
+    <p class="profils__lead desk">Chaque profil a son espace, pensé pour ce qu'il a à faire.</p>
+
+    <div class="prof-rows">
+      {profils.map((p) => (
+        <div class:list={["prof-row", { "prof-row--right": !p.imageLeft }]}>
+          <div class="prof-row__visual">
+            <BrowserFrame src={p.image} alt={p.alt} variant="mini" class="prof-row__frame"
+              sizes="(min-width: 1100px) 700px, 100vw" widths={[480, 720, 1080]} />
+            {p.overlay && (
+              <div class="prof-row__overlay card">
+                <Image src={p.overlay.image} alt={p.overlay.alt} widths={[240, 400]} sizes="320px" format="webp" quality={85} loading="lazy" />
+              </div>
+            )}
+          </div>
+          <div class="prof-row__text">
+            <p class="prof-row__kicker">{p.surtitre}</p>
+            <h3>{p.titre}</h3>
+            <ul>{p.items.map((it) => <li><Fragment set:html={check} />{it}</li>)}</ul>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="prof-acc">
+      {accordion.map((p, i) => (
+        <article class="card prof-acc__item">
+          <h3>
+            <button class="prof-acc__btn" type="button" aria-expanded={i === 0 ? "true" : "false"}
+              aria-controls={`prof-panel-${p.id}`} id={`prof-btn-${p.id}`}>
+              {p.surtitre}
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#105064" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+            </button>
+          </h3>
+          <div class="prof-acc__panel" id={`prof-panel-${p.id}`} role="region" aria-labelledby={`prof-btn-${p.id}`}>
+            <ul>{p.items.map((it) => <li><Fragment set:html={check} />{it}</li>)}</ul>
+            <div class="prof-acc__shot">
+              <Image src={p.image} alt={p.alt} widths={[360, 720]} sizes="(max-width: 767px) 100vw, 360px" format="webp" quality={85} loading="lazy" />
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .profils__lead { margin-top: 20px; max-width: 720px; font-size: 20px; line-height: 1.6; color: var(--neutral-6); }
+  .prof-rows { margin-top: 72px; display: flex; flex-direction: column; gap: 112px; }
+  .prof-row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: center; }
+  .prof-row--right { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .prof-row--right .prof-row__text { order: -1; }
+  .prof-row__visual { position: relative; min-width: 0; padding-bottom: 48px; }
+  .prof-row__visual :global(.prof-row__frame) { box-shadow: var(--shadow-frame); overflow: visible; }
+  .prof-row__visual :global(.prof-row__frame img) { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+  .prof-row:not(:has(.prof-row__overlay)) .prof-row__visual { padding-bottom: 0; }
+  .prof-row__overlay {
+    position: absolute; right: -24px; bottom: 0; width: 46%; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 16px 40px rgba(16, 80, 100, 0.18);
+  }
+  .prof-row__overlay :global(img) { display: block; width: 100%; height: auto; }
+  .prof-row__text { min-width: 0; }
+  .prof-row__kicker { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--primary); }
+  .prof-row h3 { margin-top: 12px; font-size: 28px; line-height: 1.3; font-weight: 500; color: var(--primary-800); }
+  ul { display: flex; flex-direction: column; }
+  .prof-row ul { margin-top: 24px; gap: 14px; }
+  li { display: flex; gap: 12px; font-size: 16px; line-height: 1.55; color: var(--neutral-7); }
+
+  .prof-acc { display: none; }
+  @media (max-width: 1023px) {
+    .prof-row, .prof-row--right { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .prof-row--right .prof-row__text { order: 0; }
+    .prof-row__overlay { right: 0; }
+    .prof-rows { gap: 72px; }
+  }
+  @media (max-width: 767px) {
+    .desk, .prof-rows { display: none; }
+    .prof-acc { margin-top: 32px; display: grid; gap: 16px; }
+    .prof-acc__item { overflow: hidden; }
+    .prof-acc__btn {
+      display: flex; width: 100%; min-height: 64px; padding: 18px 20px; border: 0; background: transparent;
+      align-items: center; justify-content: space-between; gap: 16px; text-align: left; cursor: pointer;
+      font-size: 18px; font-weight: 600; color: var(--primary-800);
+    }
+    .prof-acc__btn svg { flex: none; transition: transform 200ms; }
+    .prof-acc__btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .prof-acc ul { gap: 12px; padding: 0 20px 20px; }
+    .prof-acc li { line-height: 1.5; }
+    .prof-acc__shot { aspect-ratio: 4 / 3; padding: 14px; background: var(--neutral-2); margin: 4px 20px 22px; border-radius: var(--radius-md); }
+    .prof-acc__shot :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; border-radius: var(--radius-md); }
+    :global(.js) .prof-acc__btn[aria-expanded="false"] + * { display: none; }
+  }
+</style>

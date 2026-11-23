@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import Dot from "../ui/Dot.astro";
+import etape1 from "../../assets/capture-etape1-indisponibilites.png";
+import etape2 from "../../assets/capture-etape2-repartition.png";
+import etape3 from "../../assets/capture-etape3-echanges.png";
+
+const steps = [
+  { img: etape1, alt: "Saisie des indisponibilités d'un médecin dans DaybyDoc", title: "Les médecins posent leurs indisponibilités.", text: "Ils sont disponibles par défaut et ne déclarent que leurs contraintes : une semaine type pour les récurrentes, un calendrier pour les ponctuelles. Les vacances scolaires, les ponts et les jours fériés sont déjà indiqués." },
+  { img: etape2, alt: "Gardes de la semaine réparties dans DaybyDoc", title: "DaybyDoc répartit les gardes.", text: "L'algorithme applique vos règles : équité entre médecins, temps de repos, enchaînements interdits, priorités. Le planning est prêt à publier, et vous gardez la main pour ajuster une garde à tout moment." },
+  { img: etape3, alt: "Demandes d'échange de garde dans DaybyDoc", title: "La garde vit sans vous solliciter.", text: "Libérations, échanges entre médecins, gardes vacantes, dons de garde : chacun agit dans l'outil, vous êtes prévenu, tout est tracé. La facturation se prépare d'elle-même." },
+];
+---
+<section class="section section--white" id="fonctionnement" aria-labelledby="cm-titre">
+  <div class="container">
+    <h2 id="cm-titre">Trois temps, une seule application<Dot /></h2>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="step" data-reveal>
+          <div class="step__head"><span class="step__num">{i + 1}</span><span class="step__line" aria-hidden="true"></span></div>
+          <div class="step__shot card">
+            <Image src={s.img} alt={s.alt} widths={[360, 720]} sizes="(min-width: 768px) 360px, 100vw" format="webp" quality={85} loading="lazy" />
+          </div>
+          <div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .steps { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .step { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+  .step__head { display: flex; align-items: center; gap: 16px; }
+  .step__num {
+    flex: none; width: 44px; height: 44px; border-radius: 9999px; background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 600; color: #fff;
+  }
+  .step__line { flex: 1; height: 1.5px; background: var(--neutral-4); }
+  .step__shot { aspect-ratio: 3 / 4; padding: 14px; }
+  .step__shot :global(img) {
+    display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; border-radius: var(--radius-md);
+  }
+  .step h3 { font-size: 19px; line-height: 1.4; font-weight: 600; color: var(--primary-800); }
+  .step p { margin-top: 10px; font-size: 16px; line-height: 1.6; color: var(--neutral-6); }
+  @media (max-width: 1023px) { .steps { gap: 24px; } }
+  @media (max-width: 767px) {
+    .steps { margin-top: 32px; grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  }
+</style>
