@@ -13,7 +13,8 @@
     "check": "npm run build && npm run check:build && npm run check:texts && npm run check:form && npm run check:video && npm run check:reveal",
     "check:video": "node --test scripts/video.test.mjs",
     "check:reveal": "node --test scripts/reveal.test.mjs",
-    "og": "node scripts/make-og.mjs"
+    "og": "node scripts/make-og.mjs",
+    "check:requests": "node scripts/check-requests.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.6",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "cheerio": "^1.2.0",
-    "jsdom": "^29.1.1"
+    "jsdom": "^29.1.1",
+    "puppeteer-core": "^25.18.1"
   }
 }

@@ -30,7 +30,8 @@ import mobile from "../../assets/capture-hero-mobile.png";
 <style>
   .hero { padding: 96px var(--gutter) 128px; border-top: 0; }
   .hero__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 64px; }
-  .hero__text { flex: 1 1 420px; max-width: 500px; min-width: 0; }
+  /* 540 px : le mot « automatiquement, » du titre mesure ~520 px à 56 px */
+  .hero__text { flex: 1 1 420px; max-width: 540px; min-width: 0; }
   .hero__eyebrow { font-size: 15px; font-weight: 500; letter-spacing: 0.01em; color: var(--c-text); }
   h1 {
     margin: 20px 0 28px; font-size: 56px; line-height: 1.14; font-weight: 500;
@@ -49,7 +50,7 @@ import mobile from "../../assets/capture-hero-mobile.png";
 
   @media (max-width: 767px) {
     .hero { padding-block: 64px; }
-    h1 { font-size: 38px; line-height: 1.15; margin: 16px 0 20px; }
+    h1 { font-size: min(38px, 9.6vw); line-height: 1.15; margin: 16px 0 20px; }
     .hero__lead { font-size: 18px; }
     .hero__actions { margin-top: 28px; }
     .hero__visual { padding: 0 0 32px 32px; }
