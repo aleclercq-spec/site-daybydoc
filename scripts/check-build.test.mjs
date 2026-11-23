@@ -350,3 +350,34 @@ test("sitemap : accueil et pages légales, sans merci ni 404", () => {
   assert.match(files, /\/confidentialite</);
   assert.ok(!/\/merci</.test(files) && !/\/404</.test(files));
 });
+
+test("robots.txt et _redirects", () => {
+  assert.equal(readFileSync("dist/robots.txt", "utf8").trim().split("\n").join("|"),
+    "User-agent: *|Allow: /|Sitemap: https://www.daybydoc.fr/sitemap-index.xml");
+  const r = readFileSync("dist/_redirects", "utf8");
+  for (const from of ["/home", "/cart", "/search"]) assert.match(r, new RegExp(`^${from}\\s+/\\s+301$`, "m"));
+});
+
+test("image Open Graph : 1200x630, fond teal", async () => {
+  const sharp = (await import("sharp")).default;
+  const img = sharp("dist/og-image.png");
+  const meta = await img.metadata();
+  assert.equal(meta.width, 1200);
+  assert.equal(meta.height, 630);
+  const { data } = await img.extract({ left: 5, top: 5, width: 1, height: 1 }).raw().toBuffer({ resolveWithObject: true });
+  assert.deepEqual([...data].slice(0, 3), [0x10, 0x50, 0x64]);
+});
+
+test("netlify.toml : build, en-têtes de sécurité, CSP Vimeo, cache long sur fonts et _astro", () => {
+  const t = readFileSync("netlify.toml", "utf8");
+  assert.match(t, /command = "npm run build"/);
+  assert.match(t, /publish = "dist"/);
+  for (const h of ["X-Content-Type-Options", "Referrer-Policy", "X-Frame-Options", "Content-Security-Policy"])
+    assert.ok(t.includes(h), h);
+  assert.match(t, /frame-src https:\/\/player\.vimeo\.com/);
+  assert.match(t, /form-action 'self'/);
+  for (const p of ["/fonts/*", "/_astro/*"]) {
+    const block = t.split("[[headers]]").find((b) => b.includes(`for = "${p}"`));
+    assert.ok(block && /max-age=31536000, immutable/.test(block), `cache immutable sur ${p}`);
+  }
+});
