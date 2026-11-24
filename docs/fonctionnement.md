@@ -73,7 +73,7 @@ Mises en page : ≥ 1280 px côte à côte (hero de 809 px de haut, compris dans
 - Netlify Forms : `<form name="demo" method="POST" action="/merci" data-netlify="true" netlify-honeypot="bot-field">` avec `form-name` caché et champ piège `bot-field`.
 - Champs : nom et prénom, fonction, structure, e-mail (obligatoires) ; téléphone, nombre de médecins, message (facultatifs).
 - Validation (`src/scripts/form.ts`) : messages en français sous chaque champ, focus sur le premier champ en erreur. Un champ obligatoire rempli d'espaces est refusé. L'e-mail exige un point dans le domaine (attribut `pattern`, actif aussi sans JavaScript). `novalidate` est ajouté par le script : sans JavaScript, la validation native du navigateur reste active. Honeypot rempli : aucun envoi.
-- Après envoi : Netlify redirige vers `/merci`. Les demandes apparaissent dans Netlify > Forms ; l'e-mail de notification vers contact@dbyd.fr se règle dans l'interface Netlify (hors du code).
+- Après envoi : Netlify redirige vers `/merci`. Les demandes apparaissent dans Netlify > Forms ; l'e-mail de notification vers contact@dbyd.fr se règle dans l'interface Netlify (hors du code). Prérequis : « Form detection » activée dans Netlify > Forms, sinon l'envoi aboutit à une page introuvable ; la détection ne s'applique qu'au déploiement suivant son activation.
 
 ## Design
 
@@ -110,4 +110,4 @@ Dernière mesure Lighthouse mobile (2026-11-24) : performance 100, accessibilit�
 
 ## Limites connues
 
-Voir « À faire » dans `journal.md` : lecture réelle de la vidéo, envoi réel du formulaire et comportement Netlify à valider sur l'adresse provisoire (déployée) ; date de mise à jour de la confidentialité à renseigner ; textes de `/merci` et `/404` à relire.
+Voir « À faire » dans `journal.md` : recette sur appareils réels à terminer (formulaire, vidéo et mobile déjà validés le 2026-11-24) ; date de mise à jour de la confidentialité à renseigner ; textes de `/merci` et `/404` à relire.

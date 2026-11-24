@@ -4,8 +4,8 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 
 ## À faire / en attente
 
-- [ ] Recette sur l'adresse provisoire : envoi réel du formulaire (demande visible dans Netlify > Forms, e-mail reçu, redirection `/merci`), formulaire refusé s'il manque un champ, lecture de la vidéo Vimeo, affichage sur iPhone, Android, tablette et ordinateur (Chrome, Safari, Firefox).
-- [ ] Netlify : activer la détection des formulaires, ajouter la notification e-mail vers contact@dbyd.fr, domaine principal `www.daybydoc.fr`.
+- [ ] Recette sur l'adresse provisoire : reste l'affichage sur iPhone, Android, tablette et ordinateur (Chrome, Safari, Firefox) et le formulaire refusé s'il manque un champ. Validés par l'utilisateur le 2026-11-24 : envoi réel du formulaire, lecture de la vidéo Vimeo, affichage mobile.
+- [ ] Netlify : vérifier la notification e-mail vers contact@dbyd.fr (réglage fait par l'utilisateur, e-mail reçu non confirmé), domaine principal `www.daybydoc.fr`.
 - [ ] Renseigner `[date de mise en ligne]` dans `src/content/legal/confidentialite.md` (aucun test ne bloque sa mise en ligne telle quelle).
 - [ ] Relire les textes de `/merci` et `/404` (rédigés sans maquette).
 - [ ] Bascule DNS chez OVH (A / CNAME vers Netlify, ne toucher à aucun MX), vérifier HTTPS, redirection vers `www`, anciennes adresses ; résilier Squarespace ensuite.
@@ -15,6 +15,7 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 
 ## 2026-11-24
 
+- Formulaire : au premier essai, l'envoi aboutissait à « Page introuvable » car la détection des formulaires était désactivée dans Netlify (Forms > Enable form detection). Activée par l'utilisateur, site redéployé : le formulaire `demo` est listé et l'envoi de test fonctionne (confirmé par l'utilisateur). Aucun changement de code.
 - Nouveau hero appliqué (consigne `kit/daybydoc-hero/CONSIGNE.md`) : carte des secteurs en SVG inline, ordinateur dessiné en CSS, trois notifications, bandeau des activités, téléphone supprimé. Tests écrits d'abord (structure, textes, géométrie en navigateur). Lighthouse mobile 100 / 100 / 100 / 100. Captures ordinateur, tablette et mobile montrées avant la mise en ligne.
 - Branche `feat/nouveau-hero` poussée, puis fusionnée dans `main` (avance rapide) et poussée sur accord de l'utilisateur.
 - Déploiement Netlify réussi, confirmé par l'utilisateur.
