@@ -4,7 +4,6 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 
 ## À faire / en attente
 
-- [ ] Vérifier le déploiement Netlify (`daybydoc.netlify.app`) du nouveau hero (déclenché par la fusion dans `main` du 2026-11-24, à confirmer dans Netlify > Deploys).
 - [ ] Recette sur l'adresse provisoire : envoi réel du formulaire (demande visible dans Netlify > Forms, e-mail reçu, redirection `/merci`), formulaire refusé s'il manque un champ, lecture de la vidéo Vimeo, affichage sur iPhone, Android, tablette et ordinateur (Chrome, Safari, Firefox).
 - [ ] Netlify : activer la détection des formulaires, ajouter la notification e-mail vers contact@dbyd.fr, domaine principal `www.daybydoc.fr`.
 - [ ] Renseigner `[date de mise en ligne]` dans `src/content/legal/confidentialite.md` (aucun test ne bloque sa mise en ligne telle quelle).
@@ -18,6 +17,7 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 
 - Nouveau hero appliqué (consigne `kit/daybydoc-hero/CONSIGNE.md`) : carte des secteurs en SVG inline, ordinateur dessiné en CSS, trois notifications, bandeau des activités, téléphone supprimé. Tests écrits d'abord (structure, textes, géométrie en navigateur). Lighthouse mobile 100 / 100 / 100 / 100. Captures ordinateur, tablette et mobile montrées avant la mise en ligne.
 - Branche `feat/nouveau-hero` poussée, puis fusionnée dans `main` (avance rapide) et poussée sur accord de l'utilisateur.
+- Déploiement Netlify réussi, confirmé par l'utilisateur.
 - Mise en place de `CLAUDE.md` et de cette documentation.
 
 ## 2026-11-23
@@ -28,4 +28,4 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 - Relecture finale indépendante : un point important corrigé (en-tête collant sans JavaScript en mobile), un point regradé et corrigé (champs d'espaces), sept mineurs laissés (voir « À faire »).
 - Correction de la règle de l'e-mail (point exigé dans le domaine).
 - Netlify : correction de la version de Node. Dépôt déplacé vers `aleclercq-spec/site-daybydoc` ; `main` et `feat/site-v1` poussées, `main` mise à jour par avance rapide avec le site complet.
-- Projet Netlify `daybydoc` en cours de création (équipe `tiers`, branche `main`, build `npm run build`, publication `dist`).
+- Projet Netlify `daybydoc` créé (équipe `tiers`, branche `main`, build `npm run build`, publication `dist`).

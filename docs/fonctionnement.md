@@ -6,7 +6,7 @@
 
 - **Technique :** site statique Astro 7 (CSS natif, JavaScript minimal sans framework), images optimisées par `astro:assets` (WebP), polices Poppins hébergées (`public/fonts`, 400/500/600/700, `font-display: swap`).
 - **Pages :** `/` (accueil), `/merci`, `/mentions-legales`, `/confidentialite`, `/404`. Sortie en `dist/<page>.html` (`build.format: "file"`, `trailingSlash: "never"`).
-- **Hébergement :** Netlify (projet `daybydoc`, équipe `tiers`), prévu pour se déployer à chaque push sur `main` du dépôt `aleclercq-spec/site-daybydoc` (état du déploiement à confirmer dans Netlify, voir `journal.md`). Domaine cible `www.daybydoc.fr` (DNS chez OVH, pas encore basculé).
+- **Hébergement :** Netlify (projet `daybydoc`, équipe `tiers`), déployé à chaque push sur `main` du dépôt `aleclercq-spec/site-daybydoc` (premier déploiement réussi, confirmé par l'utilisateur le 2026-11-24). Domaine cible `www.daybydoc.fr` (DNS chez OVH, pas encore basculé).
 - **Aucun cookie, aucun outil de mesure, aucune ressource tierce au chargement.** Le seul service externe est le lecteur Vimeo, chargé après un clic.
 
 ## Structure du code
@@ -110,4 +110,4 @@ Dernière mesure Lighthouse mobile (2026-11-24) : performance 100, accessibilit�
 
 ## Limites connues
 
-Voir « À faire » dans `journal.md` : lecture réelle de la vidéo, envoi réel du formulaire et comportement Netlify à valider sur l'adresse provisoire ; date de mise à jour de la confidentialité à renseigner ; textes de `/merci` et `/404` à relire.
+Voir « À faire » dans `journal.md` : lecture réelle de la vidéo, envoi réel du formulaire et comportement Netlify à valider sur l'adresse provisoire (déployée) ; date de mise à jour de la confidentialité à renseigner ; textes de `/merci` et `/404` à relire.
