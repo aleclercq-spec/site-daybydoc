@@ -113,3 +113,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   }
   .reveal-ready [data-reveal].is-visible { opacity: 1; transform: none; }
 }
+
+/* Bouton corail (hero) : fond corail, texte teal foncé (contraste 6,4:1), jamais de texte blanc sur corail */
+.btn--coral {
+  --btn-bg: var(--coral);
+  --btn-fg: var(--primary-800);
+  --btn-hover: #f6a68f;
+  font-weight: 600;
+}

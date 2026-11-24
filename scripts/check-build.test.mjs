@@ -150,17 +150,48 @@ test("barre CTA mobile : lien vers #demo", () => {
   assert.equal(home()('.sticky-cta a[href="#demo"]').text().trim(), "Demander une démo");
 });
 
-test("hero : h1 exact, image principale prioritaire, CTA et lien témoignage", () => {
+test("hero : titre, surtitre, sous-titre, CTA corail, ordinateur prioritaire", () => {
   const $ = home();
   const hero = $("section#hero");
   assert.equal(hero.attr("aria-labelledby"), "hero-titre");
-  assert.equal($("h1#hero-titre").text().replace(/\s+/g, " ").trim(), "Vos plannings, répartis automatiquement, selon vos règles");
+  assert.equal($("h1#hero-titre").text().replace(/\s+/g, " ").trim(), "Vos gardes médicales, réparties en un clic, selon vos règles");
   assert.equal($("h1 strong").text(), "vos règles");
-  const img = hero.find('img[alt^="Planning mensuel des gardes"]');
+  assert.equal(hero.find(".hero__eyebrow").text().trim(), "Logiciel de planning des gardes pour les ADOPS, maisons médicales et associations de régulation");
+  assert.equal(hero.find(".hero__lead").text().trim(), "DaybyDoc se paramètre selon les règles de votre ADOPS, répartit les gardes automatiquement, gère échanges et gardes vacantes, et transmet le planning à Ordigard.");
+  assert.equal(hero.find('a.btn.btn--coral[href="#demo"]').text().trim(), "Demander une démo");
+  assert.equal(hero.find('a[href="#temoignage"]').text().trim(), "Voir le témoignage de l'ADOPS59");
+  const img = hero.find('.hero__laptop img[alt="Planning mensuel des gardes dans DaybyDoc, sur ordinateur"]');
+  assert.equal(img.length, 1);
   assert.equal(img.attr("loading"), "eager");
   assert.equal(img.attr("fetchpriority"), "high");
-  assert.equal(hero.find('a[href="#demo"]').text().trim(), "Demander une démo");
-  assert.equal(hero.find('a[href="#temoignage"]').text().trim(), "Voir le témoignage de l'ADOPS59");
+});
+
+test("hero : carte des secteurs en SVG inline décoratif, pastille de régulation présente", () => {
+  const hero = home()("section#hero");
+  const map = hero.find('.hero__map[aria-hidden="true"]');
+  assert.equal(map.length, 1);
+  assert.equal(map.find("svg").length, 1);
+  assert.equal(map.find("img").length, 0);
+  assert.equal(map.find('circle[cx="380.3"][cy="284.4"][r="28"]').length, 1);
+  assert.ok(!/carte-secteurs/.test(hero.html()), "la carte est inline, pas référencée par fichier");
+});
+
+test("hero : téléphone supprimé, trois notifications", () => {
+  const $ = home();
+  const hero = $("section#hero");
+  assert.equal(hero.find('img[alt*="vue mobile"]').length, 0);
+  assert.equal(hero.find(".hero__phone").length, 0);
+  assert.deepEqual(hero.find(".hero__notif-title").map((_, e) => $(e).text()).get().sort(),
+    ["Garde vacante pourvue", "Régulation · Nuit du samedi", "Échange accepté"].sort());
+});
+
+test("hero : bandeau des activités", () => {
+  const $ = home();
+  const band = $('section#hero ul[aria-label="Les activités gérées"]');
+  assert.equal(band.length, 1);
+  assert.deepEqual(band.find("li p").map((_, e) => $(e).text()).get(),
+    ["Régulation", "Gardes de secteur", "Maisons médicales de garde", "Médecins mobiles"]);
+  assert.equal(band.find('li [aria-hidden="true"] svg').length, 4);
 });
 
 test("preuves : deux articles ADOPS85 et ADOPS59 avec leurs chiffres", () => {

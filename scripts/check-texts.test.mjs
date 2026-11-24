@@ -8,9 +8,11 @@ const norm = (s) => s.replace(/\s+/g, " ").trim();
 export const KNOWN_DIFFS = new Set(["[adresse]@daybydoc"]);
 
 /** Textes visibles d'une maquette .dc.html (contenu de <x-dc>, hors script/style/helmet). */
-export function extractTexts(htmlPath) {
+export function extractTexts(htmlPath, { dropHero = false } = {}) {
   const $ = cheerio.load(readFileSync(htmlPath, "utf8"));
   $("x-dc script, x-dc style, x-dc helmet").remove();
+  // Le hero des 6 planches d'origine est remplacé par celui de kit/daybydoc-hero (consigne du 24/11).
+  if (dropHero) $('x-dc section[aria-labelledby="hero-titre"]').remove();
   const out = [];
   $("x-dc *").each((_, el) => {
     for (const n of el.children ?? []) {
@@ -33,13 +35,16 @@ const pageText = () => {
 };
 
 const dir = "kit/maquettes";
+const HERO = "kit/daybydoc-hero/maquette/hero.dc.html";
 if (!existsSync(dir)) {
   test("kit/maquettes absent", { skip: "kit/ non présent" }, () => {});
 } else {
-  for (const file of readdirSync(dir).filter((f) => f.endsWith(".dc.html"))) {
-    test(`textes de ${file} présents dans dist/index.html`, () => {
+  const sources = readdirSync(dir).filter((f) => f.endsWith(".dc.html")).map((f) => [f, `${dir}/${f}`, true]);
+  if (existsSync(HERO)) sources.push(["hero.dc.html (nouveau hero)", HERO, false]);
+  for (const [name, path, dropHero] of sources) {
+    test(`textes de ${name} présents dans dist/index.html`, () => {
       const page = pageText();
-      const missing = extractTexts(`${dir}/${file}`).filter(
+      const missing = extractTexts(path, { dropHero }).filter(
         (t) => !KNOWN_DIFFS.has(t) && !page.includes(t),
       );
       assert.deepEqual(missing, [], `${missing.length} texte(s) manquant(s)`);

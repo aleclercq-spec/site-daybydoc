@@ -55,6 +55,43 @@ try {
     await p.close();
   }
 
+  // 2 ter. Géométrie du hero : pas de chevauchement, carte jamais sous le texte, hauteur maîtrisée
+  for (const width of [1440, 1280, 1180, 1100, 1024, 820, 768, 480, 390, 360, 320]) {
+    const p = await browser.newPage();
+    await p.setViewport({ width, height: 900 });
+    await p.goto(BASE, { waitUntil: "networkidle0" });
+    const g = await p.evaluate(() => {
+      const rect = (el) => { const r = el.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom, w: r.width, h: r.height }; };
+      const shown = (el) => el && getComputedStyle(el).display !== "none" && el.getBoundingClientRect().width > 0;
+      const pick = (sel) => [...document.querySelectorAll(sel)].filter(shown);
+      const hero = document.querySelector("#hero");
+      return {
+        hero: rect(hero), header: rect(document.querySelector("header")),
+        text: rect(document.querySelector(".hero__text")), visual: rect(document.querySelector(".hero__visual")),
+        map: rect(document.querySelector(".hero__map")),
+        pastille: rect(document.querySelector('.hero__map circle[cx="380.3"][cy="284.4"][r="28"]')),
+        laptop: rect(document.querySelector(".hero__laptop")),
+        notifs: pick(".hero__notif").map(rect),
+      };
+    });
+    const hit = (a, b) => a.l < b.r - 0.5 && a.r > b.l + 0.5 && a.t < b.b - 0.5 && a.b > b.t + 0.5;
+    const problems = [];
+    g.notifs.forEach((n, i) => {
+      if (hit(n, g.pastille)) problems.push(`notification ${i} masque la pastille`);
+      if (hit(n, g.laptop)) problems.push(`notification ${i} chevauche l'ordinateur`);
+      g.notifs.slice(i + 1).forEach((m, j) => hit(n, m) && problems.push(`notifications ${i} et ${i + j + 1} se chevauchent`));
+    });
+    if (hit(g.laptop, g.pastille)) problems.push("l'ordinateur masque la pastille");
+    if (hit(g.map, g.text)) problems.push("la carte passe sous le texte");
+    if (width >= 1280 && g.hero.h > 820) problems.push(`hero trop haut : ${Math.round(g.hero.h)} px (max 820)`);
+    if (width === 1440 && g.header.h + g.hero.h > 900) problems.push(`en-tête + hero = ${Math.round(g.header.h + g.hero.h)} px (> 900)`);
+    if (width < 768 && g.notifs.length > 2) problems.push(`${g.notifs.length} notifications en mobile (2 max)`);
+    if (width >= 1280 && g.visual.l < g.text.r - 1) problems.push("visuel pas à droite du texte");
+    if (width < 1280 && g.visual.t < g.text.b - 1) problems.push("visuel pas sous le texte");
+    problems.length ? fail(`hero @${width}px : ${problems.join(" ; ")}`) : ok(`hero @${width}px : géométrie correcte (${Math.round(g.hero.h)} px, ${g.notifs.length} notif.)`);
+    await p.close();
+  }
+
   // 3. Pas de défilement horizontal
   for (const path of ["/", "/merci", "/mentions-legales", "/confidentialite", "/introuvable"]) {
     for (const width of [320, 390, 768, 900, 1024, 1100, 1440]) {
