@@ -1,6 +1,7 @@
 ---
 import Dot from "../ui/Dot.astro";
 import logo from "../../assets/logo-daybydoc-blanc.svg";
+import carte from "../../assets/carte-fond.svg";
 
 const rows = [
   ["Les indisponibilités arrivent par mail, SMS et téléphone.", "Chaque médecin saisit les siennes, depuis son téléphone ou son ordinateur, avant la date limite."],
@@ -11,7 +12,7 @@ const rows = [
   ["Difficile de retrouver l'historique des changements.", "Toutes les actions, tous les changements sont traçables pour conserver un historique précis."],
 ];
 ---
-<section class="section section--teal aa" id="avant-apres" aria-labelledby="aa-titre">
+<section class="section section--teal aa has-map" id="avant-apres" aria-labelledby="aa-titre" style={`--map: url(\"${carte.src}\"); --map-size: auto 105%; --map-pos: right -260px center; --map-opacity: 0.45;`}>
   <div class="container">
     <h2 id="aa-titre">Votre planning ne devrait pas tenir à un tableur et à beaucoup de bonne volonté<Dot /></h2>
     <div class="aa__table" role="table" aria-label="Avant et avec DaybyDoc">
@@ -55,6 +56,7 @@ const rows = [
   [role="row"]:last-child > .aa__cell--after { border-radius: 0 0 var(--radius-lg) 0; }
 
   @media (max-width: 767px) {
+    .aa { --map-size: auto 70%; --map-pos: right -140px top 60px; }
     .aa { padding-block: 64px; }
     .aa__table { margin-top: 32px; display: block; }
     .aa__group { display: block; }

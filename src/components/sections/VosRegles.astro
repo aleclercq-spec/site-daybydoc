@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import Dot from "../ui/Dot.astro";
 import detail from "../../assets/capture-detail-garde.png";
+import carte from "../../assets/carte-fond.svg";
 
 const cards = [
   ["Vos plannings", "Garde de secteur, médecins mobiles, régulation : autant de plannings que nécessaire, chacun avec ses médecins et ses référents. Les plannings sont liés entre eux : un médecin inscrit sur plusieurs plannings n'est jamais positionné deux fois au même moment."],
@@ -10,7 +11,7 @@ const cards = [
   ["Votre algorithme", "Les priorités de répartition, les temps de repos, les enchaînements interdits, les jours obligatoires, les délais de libération."],
 ];
 ---
-<section class="section section--teal" id="regles" aria-labelledby="vr-titre">
+<section class="section section--teal has-map" id="regles" aria-labelledby="vr-titre" style={`--map: url(\"${carte.src}\"); --map-size: auto 100%; --map-pos: right -330px top; --map-opacity: 0.32;`}>
   <div class="container">
     <div class="regles__intro">
       <h2 id="vr-titre">Votre ADOPS a ses règles. DaybyDoc les applique<Dot /></h2>
@@ -55,6 +56,7 @@ const cards = [
   }
   .regles__more { margin-top: 40px; font-size: 18px; line-height: 1.6; font-weight: 500; color: var(--c-text); }
   @media (max-width: 767px) {
+    .has-map { --map-size: auto 60%; --map-pos: left -150px bottom 40px; }
     .regles__intro p { font-size: 18px; }
     .regles__body { margin-top: 32px; }
     .regles__cards { grid-template-columns: minmax(0, 1fr); gap: 16px; }

@@ -36,9 +36,9 @@ Ordre et alternance blanc / teal (`.section--white` / `.section--teal`) :
 |---|---|---|---|
 | 1 | Hero | `hero` | teal |
 | 2 | Preuves (ADOPS85, ADOPS59) | `preuves` | blanc |
-| 3 | Avant / avec DaybyDoc | `avant-apres` | teal |
+| 3 | Avant / avec DaybyDoc (carte en fond) | `avant-apres` | teal |
 | 4 | Comment ça marche (3 étapes) | `fonctionnement` | blanc |
-| 5 | Vos règles | `regles` | teal |
+| 5 | Vos règles (carte en fond) | `regles` | teal |
 | 6 | Profils (médecins, bureau, secrétariat) | `profils` | blanc |
 | 7 | Intégrations et sécurité | `integrations` | teal |
 | 8 | Témoignage (vidéo) | `temoignage` | blanc |
@@ -47,7 +47,7 @@ Ordre et alternance blanc / teal (`.section--white` / `.section--teal`) :
 | 11 | FAQ | `faq` | teal |
 | 12 | Demande de démo (formulaire) | `demo` | blanc |
 
-Les textes sont ceux des maquettes, à l'identique. Chaque section est autonome (HTML + CSS dans son fichier `.astro`).
+Les textes sont ceux des maquettes, à l'identique, sauf les retouches du 2026-11-25 listées dans `decisions.md` (titre de « Comment ça marche », champs prénom / nom, adresse de contact). Chaque section est autonome (HTML + CSS dans son fichier `.astro`).
 
 ### Hero
 
@@ -65,15 +65,18 @@ Mises en page : ≥ 1280 px côte à côte (hero de 809 px de haut, compris dans
 - **Barre « Demander une démo » (mobile) :** fixe en bas sous 768 px, visible une fois le hero passé et masquée quand la section `#demo` est visible.
 - **Profils :** trois blocs alternés dès 768 px (une colonne sous 1024 px) ; accordéon sous 768 px (ordre bureau, secrétariat, médecins, un seul ouvert, le premier ouvert au chargement).
 - **FAQ :** accordéon, première question ouverte, une seule ouverte à la fois, `aria-expanded`, accessible au clavier. Panneaux repliés uniquement si JavaScript est actif. Colonne de gauche collante dès 1100 px, masquée sous 768 px.
+- **Comment ça marche :** dans chaque étape, de haut en bas : puce numérotée (centrée, un trait de chaque côté), titre, capture, paragraphe. Titre de la section : « Un fonctionnement simple, pensé pour vous simplifier la vie ».
+- **Cartes en fond (avant/après, vos règles) :** la carte des secteurs, variante décorative `src/assets/carte-fond.svg` (sans pastilles ni icônes), posée en fond de section par la classe `.has-map` (`src/styles/base.css`) et les variables `--map`, `--map-size`, `--map-pos`, `--map-opacity` réglées dans chaque section. En CSS uniquement : rien dans le HTML, donc ignorée des lecteurs d'écran ; sans interaction. Sections en `overflow: hidden`.
+- **Déploiement (frise) :** le cercle corail est sur l'étape 1 au repos ; au survol d'une étape il se déplace sur elle (l'étape 1 reprend alors la petite puce). Sur mobile, il suit l'étape touchée (le survol reste actif après un toucher). Transition coupée si l'utilisateur demande moins d'animations.
 - **Vidéo :** la vignette locale s'affiche avec un lien de repli vers Vimeo ; au clic, un script remplace le lien par un bouton, puis charge `https://player.vimeo.com/video/1202756436?dnt=1&autoplay=1` dans un iframe. Aucun cookie avant le clic.
 - **Apparitions au défilement :** éléments `data-reveal` qui apparaissent en fondu. Actif seulement si le script est démarré (classe `reveal-ready`) et si l'utilisateur n'a pas demandé moins d'animations.
 
 ## Formulaire de démo
 
 - Netlify Forms : `<form name="demo" method="POST" action="/merci" data-netlify="true" netlify-honeypot="bot-field">` avec `form-name` caché et champ piège `bot-field`.
-- Champs : nom et prénom, fonction, structure, e-mail (obligatoires) ; téléphone, nombre de médecins, message (facultatifs).
+- Champs : prénom, nom, fonction, structure, e-mail (obligatoires) ; téléphone, nombre de médecins, message (facultatifs). Noms envoyés à Netlify : `prenom`, `nom`, `fonction`, `structure`, `email`, `telephone`, `nombre-medecins`, `message`. Les demandes reçues avant le 2026-11-25 n'ont qu'un champ `nom` (nom et prénom ensemble).
 - Validation (`src/scripts/form.ts`) : messages en français sous chaque champ, focus sur le premier champ en erreur. Un champ obligatoire rempli d'espaces est refusé. L'e-mail exige un point dans le domaine (attribut `pattern`, actif aussi sans JavaScript). `novalidate` est ajouté par le script : sans JavaScript, la validation native du navigateur reste active. Honeypot rempli : aucun envoi.
-- Après envoi : Netlify redirige vers `/merci`. Les demandes apparaissent dans Netlify > Forms ; l'e-mail de notification vers contact@dbyd.fr se règle dans l'interface Netlify (hors du code). Prérequis : « Form detection » activée dans Netlify > Forms, sinon l'envoi aboutit à une page introuvable ; la détection ne s'applique qu'au déploiement suivant son activation.
+- Après envoi : Netlify redirige vers `/merci`. Les demandes apparaissent dans Netlify > Forms ; l'e-mail de notification vers contact@dbyd.fr se règle dans l'interface Netlify (hors du code ; réglé et confirmé le 2026-11-25). Prérequis : « Form detection » activée dans Netlify > Forms, sinon l'envoi aboutit à une page introuvable ; la détection ne s'applique qu'au déploiement suivant son activation.
 
 ## Design
 
@@ -104,7 +107,7 @@ En-têtes : `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: DENY`
 | `check:form` | validation du formulaire (jsdom) |
 | `check:video` | le lecteur Vimeo n'est injecté qu'au clic, avec `dnt=1` |
 | `check:reveal` | animations désactivées si le mouvement est réduit |
-| `check:requests` | en Chrome : aucune requête externe ni cookie, aucun défilement horizontal de 320 à 1440 px, géométrie du hero, en-tête non collant sans JavaScript (Chrome requis, hors `npm run check`) |
+| `check:requests` | en Chrome : aucune requête externe ni cookie, aucun défilement horizontal de 320 à 1440 px, géométrie du hero, en-tête non collant sans JavaScript, puces centrées, cartes en fond présentes, cercle de la frise au survol (Chrome requis, hors `npm run check`) |
 
 Dernière mesure Lighthouse mobile (2026-11-24) : performance 100, accessibilité 100, bonnes pratiques 100, SEO 100.
 

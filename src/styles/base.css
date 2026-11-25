@@ -121,3 +121,13 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   --btn-hover: #f6a68f;
   font-weight: 600;
 }
+
+/* Carte des secteurs décorative en fond de section (CSS : aucun nœud dans le HTML, donc ignorée des lecteurs d'écran).
+   Réglée par section avec --map (url), --map-size, --map-pos, --map-opacity. */
+.has-map { position: relative; overflow: hidden; }
+.has-map::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: var(--map) var(--map-pos, center) / var(--map-size, auto 120%) no-repeat;
+  opacity: var(--map-opacity, 1);
+}
+.has-map > .container { position: relative; }

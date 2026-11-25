@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import * as cheerio from "cheerio";
 
 const TITLE = "DaybyDoc - Planning des gardes ADOPS et maisons médicales";
@@ -11,7 +11,7 @@ const ALLOWED_ABSOLUTE = [
   "https://9tq.fr",
   "https://www.daybydoc.fr",
   "https://vimeo.com/1202756436",
-  "mailto:contact@dbyd.fr",
+  "mailto:contact@daybydoc.fr",
 ];
 
 const load = (file) => cheerio.load(readFileSync(`dist/${file}`, "utf8"));
@@ -75,7 +75,7 @@ test("formulaire de démo : attributs Netlify et champs obligatoires", () => {
   assert.equal(f.attr("netlify-honeypot"), "bot-field");
   assert.equal(f.find('input[name="form-name"]').attr("value"), "demo");
   assert.equal(f.find('[name="bot-field"]').length, 1);
-  for (const n of ["nom", "fonction", "structure", "email"])
+  for (const n of ["prenom", "nom", "fonction", "structure", "email"])
     assert.ok(f.find(`[name="${n}"][required]`).length, `${n} doit être required`);
   for (const n of ["telephone", "nombre-medecins", "message"])
     assert.equal(f.find(`[name="${n}"][required]`).length, 0, `${n} ne doit pas être required`);
@@ -141,7 +141,8 @@ test("pied de page : logo blanc, liens, contact, mention 9troisquarts", () => {
   assert.equal(f.find('a[href="/confidentialite"]').text().trim(), "Politique de confidentialité");
   assert.equal(f.find('a[href="https://dbyd.fr"]').text().trim(), "Se connecter");
   assert.equal(f.find('a[href="#demo"]').text().trim(), "Demander une démo");
-  assert.equal(f.find('a[href="mailto:contact@dbyd.fr"]').length, 1);
+  assert.equal(f.find('a[href="mailto:contact@daybydoc.fr"]').length, 1);
+  assert.equal(f.find('a[href="mailto:contact@daybydoc.fr"]').text(), "contact@daybydoc.fr");
   assert.match(f.text(), /Conçu et maintenu par 9troisquarts\./);
   assert.match(f.text(), /Le planning des gardes pour les ADOPS, maisons médicales et associations de régulation\./);
 });
@@ -215,11 +216,36 @@ test("avant/après : tableau ARIA de 6 lignes, 2 colonnes", () => {
 test("comment ça marche : 3 étapes numérotées avec capture", () => {
   const $ = home();
   const s = $("section#fonctionnement");
-  assert.equal(s.find("h2").text(), "Trois temps, une seule application");
+  assert.equal(s.find("h2").text(), "Un fonctionnement simple, pensé pour vous simplifier la vie");
   assert.deepEqual(s.find("ol > li h3").map((_, e) => $(e).text()).get(), [
     "Les médecins posent leurs indisponibilités.", "DaybyDoc répartit les gardes.", "La garde vit sans vous solliciter.",
   ]);
   assert.equal(s.find("ol > li img").length, 3);
+});
+
+test("comment ça marche : dans chaque étape, puce, titre, capture, puis paragraphe", () => {
+  const $ = home();
+  const items = $("section#fonctionnement ol > li");
+  assert.equal(items.length, 3);
+  items.each((_, li) => {
+    const order = $(li).children().map((_, c) => (c.name === "div" ? ($(c).hasClass("step__head") ? "puce" : $(c).hasClass("step__shot") ? "capture" : "?") : c.name)).get();
+    assert.deepEqual(order, ["puce", "h3", "capture", "p"]);
+  });
+});
+
+test("fonds en carte : avant/après et vos règles, décoratifs (CSS), fichier présent dans la sortie", () => {
+  const $ = home();
+  for (const id of ["avant-apres", "regles"]) {
+    const s = $(`section#${id}`);
+    assert.ok(s.hasClass("has-map"), `${id} : classe has-map`);
+    const m = /--map:\s*url\("(\/_astro\/[^"]+\.svg)"\)/.exec(s.attr("style") ?? "");
+    assert.ok(m, `${id} : variable --map vers un SVG local`);
+    assert.ok(existsSync(`dist${m[1]}`), `${id} : ${m[1]} absent de dist`);
+    assert.equal(s.find("svg, img[src*='carte']").filter((_, e) => /carte/.test($(e).attr("src") ?? "")).length, 0, `${id} : la carte n'est pas dans le HTML`);
+  }
+  const css = readdirSync("dist/_astro").filter((f) => f.endsWith(".css")).map((f) => readFileSync(`dist/_astro/${f}`, "utf8")).join("");
+  assert.match(css, /\.has-map::?before/, "règle .has-map::before");
+  assert.match(css, /pointer-events:\s*none/, "carte sans interaction");
 });
 
 test("vos règles : 4 cartes, capture, phrase de clôture", () => {
@@ -311,14 +337,14 @@ test("faq : colonne gauche avec rassurances et contact", () => {
   const side = $("section#faq .faq__side");
   assert.equal(side.find("li p:first-child").map((_, e) => $(e).text()).get().join("|"),
     "Opérationnel en un à deux mois|Accompagné de bout en bout|Données protégées");
-  assert.equal(side.find('a[href="mailto:contact@dbyd.fr"]').text(), "contact@dbyd.fr");
+  assert.equal(side.find('a[href="mailto:contact@daybydoc.fr"]').text(), "contact@daybydoc.fr");
   assert.equal(side.find('a[href="#demo"]').text().trim(), "Demander une démo");
 });
 
 test("démo : champs étiquetés, zones d'erreur, options des listes, bouton submit", () => {
   const $ = home();
   const f = $("form[name=demo]");
-  const fields = { nom: "Nom et prénom", fonction: "Fonction", structure: "Structure", email: "E-mail", telephone: "Téléphone", "nombre-medecins": "Nombre de médecins", message: "Message" };
+  const fields = { prenom: "Prénom", nom: "Nom", fonction: "Fonction", structure: "Structure", email: "E-mail", telephone: "Téléphone", "nombre-medecins": "Nombre de médecins", message: "Message" };
   for (const [name, label] of Object.entries(fields)) {
     const el = f.find(`[name="${name}"]`);
     assert.equal(el.length, 1, name);

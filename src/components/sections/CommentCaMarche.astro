@@ -13,18 +13,16 @@ const steps = [
 ---
 <section class="section section--white" id="fonctionnement" aria-labelledby="cm-titre">
   <div class="container">
-    <h2 id="cm-titre">Trois temps, une seule application<Dot /></h2>
+    <h2 id="cm-titre">Un fonctionnement simple, pensé pour vous simplifier la vie<Dot /></h2>
     <ol class="steps">
       {steps.map((s, i) => (
         <li class="step" data-reveal>
-          <div class="step__head"><span class="step__num">{i + 1}</span><span class="step__line" aria-hidden="true"></span></div>
+          <div class="step__head"><span class="step__line" aria-hidden="true"></span><span class="step__num">{i + 1}</span><span class="step__line" aria-hidden="true"></span></div>
+          <h3>{s.title}</h3>
           <div class="step__shot card">
             <Image src={s.img} alt={s.alt} widths={[360, 720]} sizes="(min-width: 768px) 360px, 100vw" format="webp" quality={85} loading="lazy" />
           </div>
-          <div>
-            <h3>{s.title}</h3>
-            <p>{s.text}</p>
-          </div>
+          <p>{s.text}</p>
         </li>
       ))}
     </ol>
@@ -32,7 +30,7 @@ const steps = [
 </section>
 <style>
   .steps { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
-  .step { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+  .step { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
   .step__head { display: flex; align-items: center; gap: 16px; }
   .step__num {
     flex: none; width: 44px; height: 44px; border-radius: 9999px; background: var(--primary);
@@ -45,7 +43,7 @@ const steps = [
     display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; border-radius: var(--radius-md);
   }
   .step h3 { font-size: 19px; line-height: 1.4; font-weight: 600; color: var(--primary-800); }
-  .step p { margin-top: 10px; font-size: 16px; line-height: 1.6; color: var(--neutral-6); }
+  .step p { font-size: 16px; line-height: 1.6; color: var(--neutral-6); }
   @media (max-width: 1023px) { .steps { gap: 24px; } }
   @media (max-width: 767px) {
     .steps { margin-top: 32px; grid-template-columns: minmax(0, 1fr); gap: 32px; }

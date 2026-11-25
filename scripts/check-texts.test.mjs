@@ -5,7 +5,14 @@ import * as cheerio from "cheerio";
 
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 // Écarts volontaires entre maquette et site (voir docs/superpowers/specs).
-export const KNOWN_DIFFS = new Set(["[adresse]@daybydoc"]);
+// Retouches demandées après les maquettes (commentaires Claude Design du 2026-11-25, voir docs/decisions.md) :
+// titre de « Comment ça marche », « Prénom » / « Nom » à la place de « Nom et prénom », contact@daybydoc.fr.
+export const KNOWN_DIFFS = new Set([
+  "[adresse]@daybydoc",
+  "Trois temps, une seule application",
+  "Nom et prénom",
+  "contact@dbyd.fr",
+]);
 
 /** Textes visibles d'une maquette .dc.html (contenu de <x-dc>, hors script/style/helmet). */
 export function extractTexts(htmlPath, { dropHero = false } = {}) {

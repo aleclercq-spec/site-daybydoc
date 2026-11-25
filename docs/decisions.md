@@ -4,6 +4,17 @@ Une entrée par décision, de la plus récente à la plus ancienne. On ne rééc
 
 Format : **date, titre** — choix — pourquoi — ce qui a été écarté — coût si c'est faux.
 
+## 2026-11-25
+
+**Retouches issues des commentaires sur le design Claude Design « Site DaybyDoc V1 »** — neuf commentaires de l'utilisateur appliqués au site (ordinateur et mobile). Les maquettes du design n'ont pas été modifiées : le site fait désormais foi sur ces points. Pourquoi : l'utilisateur a validé sur le design, puis demandé de « prendre en compte » ses commentaires. Coût : `kit/` (maquettes locales) n'est plus identique au site sur trois textes ; `check:texts` les connaît par `KNOWN_DIFFS` (`scripts/check-texts.test.mjs`).
+- Titre « Comment ça marche » : « Un fonctionnement simple, pensé pour vous simplifier la vie » (remplace « Trois temps, une seule application »). Une première proposition du même jour (« Simple à utiliser, pratique pour tous ») a été remplacée par celle-ci.
+- Étapes : titre au-dessus de la capture, paragraphe dessous ; puces 1, 2, 3 centrées avec un trait de chaque côté.
+- Carte des secteurs en fond des sections avant/après et vos règles, en **variante décorative** (sans pastilles ni icônes), à opacité réduite et cadrée à droite hors du texte. Écarté : inclure la carte du hero telle quelle (trop chargée derrière du texte), l'insérer en SVG dans le HTML (3 copies, 10 Ko chacune, lue par les lecteurs d'écran). Coût : un fichier SVG de plus ; les réglages (taille, position, opacité) sont à ajuster au goût.
+- Frise du déploiement : le cercle corail suit l'étape survolée. Sur mobile il suit l'étape touchée (pas de survol réel) ; à confirmer par l'utilisateur.
+- Formulaire : « Nom et prénom » devient deux champs, prénom puis nom (côte à côte sur ordinateur, e-mail sur toute la largeur). Le champ Netlify `nom` devient `prenom` + `nom` ; les demandes déjà reçues gardent l'ancien format.
+- Contact public : **contact@daybydoc.fr** dans le pied de page et la FAQ, à la place de contact@dbyd.fr. **Non traité :** les mentions légales, la politique de confidentialité et les données structurées (Organization 9troisquarts) gardent contact@dbyd.fr ; la notification Netlify des demandes reste sur contact@dbyd.fr (réglage Netlify). Coût : si la boîte contact@daybydoc.fr n'existe pas chez OVH, les messages des visiteurs sont perdus ; à créer ou rediriger avant la mise en ligne de cette branche.
+- « Centrer les pictos » (intégrations) : commentaire dont la cible est ambiguë ; **non appliqué** (voir `journal.md`).
+
 ## 2026-11-24
 
 **Nouveau hero, bouton corail limité au hero** — la consigne `kit/daybydoc-hero/CONSIGNE.md` demande des boutons corail. Appliqué uniquement au bouton du hero (fond corail, texte `#082832`). Pourquoi : « le reste de la page ne change pas » ; le contraste est de 6,4:1 et le BRIEF n'interdit que le texte blanc sur corail. Remplace en partie la décision « boutons teal » du 2026-11-23 pour ce seul bouton. Coût : le hero a un bouton corail, les autres sections un bouton teal ou blanc ; à harmoniser si l'utilisateur le souhaite.

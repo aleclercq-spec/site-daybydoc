@@ -17,8 +17,21 @@ beforeEach(async () => {
 const $ = (name) => form.querySelector(`[name="${name}"]`);
 const err = (name) => d.getElementById(`err-${name}`).textContent;
 const fill = (v) => { for (const [k, val] of Object.entries(v)) $(k).value = val; };
-const VALID = { nom: "Jeanne Martin", fonction: "Président", structure: "ADOPS de la Somme", email: "jeanne@adops80.fr" };
+const VALID = { prenom: "Jeanne", nom: "Martin", fonction: "Président", structure: "ADOPS de la Somme", email: "jeanne@adops80.fr" };
 const submit = () => { const e = new dom.window.Event("submit", { cancelable: true, bubbles: true }); form.dispatchEvent(e); return e; };
+
+test("prénom et nom : deux champs obligatoires distincts, refusés vides", () => {
+  assert.ok($("prenom"), "champ prenom");
+  assert.equal($("prenom").getAttribute("autocomplete"), "given-name");
+  assert.equal($("nom").getAttribute("autocomplete"), "family-name");
+  assert.equal(mod.messageFor($("prenom")), "Merci de renseigner ce champ.");
+  fill({ ...VALID, prenom: "" });
+  const e = submit();
+  assert.equal(e.defaultPrevented, true);
+  assert.equal(err("prenom"), "Merci de renseigner ce champ.");
+  assert.equal(err("nom"), "");
+  assert.equal(d.activeElement, $("prenom"));
+});
 
 test("messageFor : champ texte vide, liste vide, e-mail invalide", () => {
   assert.equal(mod.messageFor($("nom")), "Merci de renseigner ce champ.");
@@ -29,16 +42,17 @@ test("messageFor : champ texte vide, liste vide, e-mail invalide", () => {
   assert.equal(mod.messageFor($("email")), "");
 });
 
-test("envoi vide : bloqué, 4 messages, focus sur le premier champ en erreur", () => {
+test("envoi vide : bloqué, 5 messages, focus sur le premier champ en erreur", () => {
   const e = submit();
   assert.equal(e.defaultPrevented, true);
+  assert.equal(err("prenom"), "Merci de renseigner ce champ.");
   assert.equal(err("nom"), "Merci de renseigner ce champ.");
   assert.equal(err("fonction"), "Merci de faire un choix.");
   assert.equal(err("structure"), "Merci de renseigner ce champ.");
   assert.equal(err("email"), "Merci de renseigner ce champ.");
   assert.equal(err("telephone"), "");
-  assert.equal($("nom").getAttribute("aria-invalid"), "true");
-  assert.equal(d.activeElement, $("nom"));
+  assert.equal($("prenom").getAttribute("aria-invalid"), "true");
+  assert.equal(d.activeElement, $("prenom"));
 });
 
 test("e-mail invalide : seul ce champ est refusé, pas d'envoi", () => {
@@ -54,7 +68,7 @@ test("formulaire valide : envoi laissé au navigateur (non bloqué), aucune erre
   fill(VALID);
   const e = submit();
   assert.equal(e.defaultPrevented, false);
-  for (const n of ["nom", "fonction", "structure", "email"]) assert.equal(err(n), "");
+  for (const n of ["prenom", "nom", "fonction", "structure", "email"]) assert.equal(err(n), "");
 });
 
 test("champ obligatoire rempli d'espaces : traité comme vide, envoi bloqué", () => {

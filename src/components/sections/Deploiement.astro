@@ -14,8 +14,8 @@ const steps = [
     <ol class="frise">
       <li class="frise__line" aria-hidden="true"></li>
       {steps.map(([title, text], i) => (
-        <li class="frise__step" data-reveal>
-          <span class:list={["frise__mark", { "frise__mark--first": i === 0 }]} aria-hidden="true"></span>
+        <li class:list={["frise__step", { "frise__step--first": i === 0 }]} data-reveal>
+          <span class="frise__mark" aria-hidden="true"></span>
           <p class="frise__n">Étape {i + 1}</p>
           <h3>{title}</h3>
           <p class="frise__text">{text}</p>
@@ -35,7 +35,15 @@ const steps = [
     position: absolute; left: 0; top: 33px; width: 13px; height: 13px; border-radius: 9999px;
     background: #fff; border: 2.5px solid var(--primary);
   }
-  .frise__mark--first { top: 6px; width: 26px; height: 26px; background: var(--coral); border: 0; }
+  /* Cercle corail : sur l'étape 1 au repos, il suit l'étape survolée (ou touchée sur mobile). */
+  @media (prefers-reduced-motion: no-preference) {
+    .frise__mark { transition: top 0.25s ease, left 0.25s ease, width 0.25s ease, height 0.25s ease, background-color 0.25s ease; }
+  }
+  .frise__step--first .frise__mark,
+  .frise__step:hover .frise__mark { top: 6px; width: 26px; height: 26px; background: var(--coral); border: 0; }
+  .frise:has(.frise__step:hover) .frise__step--first:not(:hover) .frise__mark {
+    top: 33px; width: 13px; height: 13px; background: #fff; border: 2.5px solid var(--primary);
+  }
   .frise__n { font-size: 14px; font-weight: 600; color: var(--primary); }
   .frise h3 { margin-top: 6px; font-size: 18px; line-height: 1.4; font-weight: 600; color: var(--primary-800); }
   .frise__text { margin-top: 10px; font-size: 15px; line-height: 1.6; color: var(--neutral-6); }
@@ -46,7 +54,9 @@ const steps = [
     .frise__line { left: 6px; right: auto; top: 8px; bottom: 8px; width: 3px; height: auto; }
     .frise__step { padding: 0 0 0 44px; }
     .frise__mark { left: 1px; top: 6px; }
-    .frise__mark--first { left: -5px; top: 0; }
+    .frise__step--first .frise__mark,
+    .frise__step:hover .frise__mark { left: -5px; top: 0; }
+    .frise:has(.frise__step:hover) .frise__step--first:not(:hover) .frise__mark { left: 1px; top: 6px; width: 13px; height: 13px; }
   }
   @media (max-width: 767px) {
     .deploiement__cta .btn { width: 100%; }

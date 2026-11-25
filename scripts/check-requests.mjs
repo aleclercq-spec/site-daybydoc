@@ -92,6 +92,47 @@ try {
     await p.close();
   }
 
+  // 2 quater. Retouches du 25/11 : puces centrées, frise au survol, cartes en fond
+  for (const width of [1440, 390]) {
+    const p = await browser.newPage();
+    await p.setViewport({ width, height: 900 });
+    await p.goto(BASE, { waitUntil: "networkidle0" });
+    const off = await p.$$eval("#fonctionnement .step", (steps) =>
+      steps.map((st) => {
+        const a = st.getBoundingClientRect(), b = st.querySelector(".step__num").getBoundingClientRect();
+        return Math.abs(a.left + a.width / 2 - (b.left + b.width / 2));
+      }));
+    off.every((d) => d <= 1) ? ok(`puces 1, 2, 3 centrées @${width}px`) : fail(`puces non centrées @${width}px (écarts ${off.map((d) => d.toFixed(1)).join(", ")} px)`);
+    const maps = await p.evaluate(() => ["#avant-apres", "#regles"].map((id) => {
+      const el = document.querySelector(id), cs = getComputedStyle(el, "::before");
+      return { id, img: cs.backgroundImage, op: cs.pointerEvents, pos: getComputedStyle(el).position };
+    }));
+    for (const m of maps) /url\(/.test(m.img) && m.op === "none" && m.pos === "relative" ? ok(`carte en fond ${m.id} @${width}px`) : fail(`carte en fond absente ou interactive ${m.id} @${width}px`);
+    await p.close();
+  }
+  for (const width of [1440, 820]) {
+    const p = await browser.newPage();
+    await p.setViewport({ width, height: 900 });
+    await p.goto(BASE, { waitUntil: "networkidle0" });
+    await p.$eval("#deploiement", (el) => el.scrollIntoView({ behavior: "instant" }));
+    const sizes = () => p.$$eval("#deploiement .frise__step .frise__mark", (ms) => ms.map((m) => Math.round(m.getBoundingClientRect().width)));
+    await new Promise((r) => setTimeout(r, 400));
+    let s0 = await sizes();
+    s0[0] > s0[1] && s0.slice(1).every((w) => w === s0[1]) ? ok(`frise @${width}px : cercle corail sur l'étape 1 au repos`) : fail(`frise @${width}px au repos : ${s0}`);
+    await p.$eval("#deploiement .frise__step:nth-child(4)", (el) => el.scrollIntoView({ block: "center", behavior: "instant" }));
+    await new Promise((r) => setTimeout(r, 300));
+    const c = await p.$eval("#deploiement .frise__step:nth-child(4)", (el) => { const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
+    await p.mouse.move(c.x, c.y);
+    await new Promise((r) => setTimeout(r, 600));
+    const s1 = await sizes();
+    s1[2] > s1[0] && s1[2] > s1[1] && s1[0] === s1[1] ? ok(`frise @${width}px : le cercle suit l'étape survolée`) : fail(`frise @${width}px au survol de l'étape 3 : ${s1}`);
+    await p.mouse.move(2, 2);
+    await new Promise((r) => setTimeout(r, 600));
+    const s2 = await sizes();
+    s2[0] > s2[1] ? ok(`frise @${width}px : retour sur l'étape 1 après le survol`) : fail(`frise @${width}px après survol : ${s2}`);
+    await p.close();
+  }
+
   // 3. Pas de défilement horizontal
   for (const path of ["/", "/merci", "/mentions-legales", "/confidentialite", "/introuvable"]) {
     for (const width of [320, 390, 768, 900, 1024, 1100, 1440]) {

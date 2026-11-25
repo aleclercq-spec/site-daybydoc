@@ -15,8 +15,13 @@ const nombres = ["Moins de 100", "100 à 300", "Plus de 300"];
       <p hidden><label>Ne pas remplir ce champ : <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
       <div class="field">
-        <label for="f-nom">Nom et prénom <span class="req" aria-hidden="true">*</span></label>
-        <input id="f-nom" name="nom" type="text" required autocomplete="name" aria-describedby="err-nom" />
+        <label for="f-prenom">Prénom <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-prenom" name="prenom" type="text" required autocomplete="given-name" aria-describedby="err-prenom" />
+        <p class="field__error" id="err-prenom" role="alert"></p>
+      </div>
+      <div class="field">
+        <label for="f-nom">Nom <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-nom" name="nom" type="text" required autocomplete="family-name" aria-describedby="err-nom" />
         <p class="field__error" id="err-nom" role="alert"></p>
       </div>
       <div class="field">
@@ -32,7 +37,7 @@ const nombres = ["Moins de 100", "100 à 300", "Plus de 300"];
         <input id="f-structure" name="structure" type="text" required placeholder="ex. ADOPS de la Somme" autocomplete="organization" aria-describedby="err-structure" />
         <p class="field__error" id="err-structure" role="alert"></p>
       </div>
-      <div class="field">
+      <div class="field field--full">
         <label for="f-email">E-mail <span class="req" aria-hidden="true">*</span></label>
         <input id="f-email" name="email" type="email" required autocomplete="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Adresse e-mail complète, par exemple nom@structure.fr" aria-describedby="err-email" />
         <p class="field__error" id="err-email" role="alert"></p>
