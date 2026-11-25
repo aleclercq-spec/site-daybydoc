@@ -6,7 +6,6 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 
 - [ ] Valider les retouches du 2026-11-25 (branche `feat/retouches-maquette`, non poussée) : rendu des cartes en fond (taille, opacité), comportement de la frise sur mobile, formulaire. Puis pousser et fusionner sur accord.
 - [ ] **Avant de fusionner :** créer la boîte ou l'alias contact@daybydoc.fr chez OVH (le site l'affichera) ; décider si les mentions légales, la confidentialité et la notification Netlify passent aussi à cette adresse.
-- [ ] Préciser le commentaire « centrer les pictos » (intégrations) : quels pictos, centrés dans quoi ? Non appliqué.
 - [ ] Recette sur l'adresse provisoire : reste l'affichage sur iPhone, Android, tablette et ordinateur (Chrome, Safari, Firefox) et le formulaire refusé s'il manque un champ. Validés par l'utilisateur le 2026-11-24 : envoi réel du formulaire, lecture de la vidéo Vimeo, affichage mobile.
 - [ ] Netlify : domaine principal `www.daybydoc.fr` (à faire avec la bascule DNS).
 - [ ] Renseigner `[date de mise en ligne]` dans `src/content/legal/confidentialite.md` (aucun test ne bloque sa mise en ligne telle quelle).

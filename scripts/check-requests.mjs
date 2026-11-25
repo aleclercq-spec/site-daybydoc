@@ -110,6 +110,18 @@ try {
     for (const m of maps) /url\(/.test(m.img) && m.op === "none" && m.pos === "relative" ? ok(`carte en fond ${m.id} @${width}px`) : fail(`carte en fond absente ou interactive ${m.id} @${width}px`);
     await p.close();
   }
+  for (const width of [1440, 390]) {
+    const p = await browser.newPage();
+    await p.setViewport({ width, height: 900 });
+    await p.goto(BASE, { waitUntil: "networkidle0" });
+    const off = await p.$$eval("#integrations .integ li", (items) =>
+      items.map((li) => {
+        const a = li.getBoundingClientRect(), b = li.querySelector(".integ__icon").getBoundingClientRect();
+        return Math.abs(a.left + a.width / 2 - (b.left + b.width / 2));
+      }));
+    off.length === 5 && off.every((d) => d <= 1) ? ok(`5 pictos d'intégrations centrés sur leur paragraphe @${width}px`) : fail(`pictos d'intégrations non centrés @${width}px (écarts ${off.map((d) => d.toFixed(1)).join(", ")} px)`);
+    await p.close();
+  }
   for (const width of [1440, 820]) {
     const p = await browser.newPage();
     await p.setViewport({ width, height: 900 });

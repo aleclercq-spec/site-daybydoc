@@ -15,7 +15,7 @@ Format : **date, titre** — choix — pourquoi — ce qui a été écarté — 
 - Frise du déploiement : le cercle corail suit l'étape survolée. Sur mobile il suit l'étape touchée (pas de survol réel) ; à confirmer par l'utilisateur.
 - Formulaire : « Nom et prénom » devient deux champs, prénom puis nom (côte à côte sur ordinateur, e-mail sur toute la largeur). Le champ Netlify `nom` devient `prenom` + `nom` ; les demandes déjà reçues gardent l'ancien format.
 - Contact public : **contact@daybydoc.fr** dans le pied de page et la FAQ, à la place de contact@dbyd.fr. **Non traité :** les mentions légales, la politique de confidentialité et les données structurées (Organization 9troisquarts) gardent contact@dbyd.fr ; la notification Netlify des demandes reste sur contact@dbyd.fr (réglage Netlify). Coût : si la boîte contact@daybydoc.fr n'existe pas chez OVH, les messages des visiteurs sont perdus ; à créer ou rediriger avant la mise en ligne de cette branche.
-- « Centrer les pictos » (intégrations) : commentaire dont la cible est ambiguë ; **non appliqué** (voir `journal.md`).
+- « Centrer les pictos » (intégrations) : précisé par l'utilisateur (« centre les 5 pictos sur chaque paragraphe ») ; picto, titre et texte de chacun des 5 éléments centrés, sur le site et dans les maquettes (version 150). Écarté : centrer le picto seul au-dessus d'un texte à gauche (décalage visuel). Coût : section « Connecté à vos outils » entièrement centrée, à annuler en une ligne si le texte doit rester à gauche.
 
 ## 2026-11-24
 
