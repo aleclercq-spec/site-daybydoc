@@ -65,7 +65,7 @@ Mises en page : ≥ 1280 px côte à côte (hero de 809 px de haut, compris dans
 - **Barre « Demander une démo » (mobile) :** fixe en bas sous 768 px, visible une fois le hero passé et masquée quand la section `#demo` est visible.
 - **Profils :** trois blocs alternés dès 768 px (une colonne sous 1024 px) ; accordéon sous 768 px (ordre bureau, secrétariat, médecins, un seul ouvert, le premier ouvert au chargement).
 - **FAQ :** accordéon, première question ouverte, une seule ouverte à la fois, `aria-expanded`, accessible au clavier. Panneaux repliés uniquement si JavaScript est actif. Colonne de gauche collante dès 1100 px, masquée sous 768 px.
-- **Comment ça marche :** dans chaque étape, de haut en bas : puce numérotée (centrée, un trait de chaque côté), titre, capture, paragraphe. Titre de la section : « Un fonctionnement simple, pensé pour vous simplifier la vie ».
+- **Comment ça marche :** dans chaque étape, de haut en bas : puce numérotée (centrée, un trait de chaque côté), titre, capture, paragraphe. Titre de la section : « Un fonctionnement simple, pensé pour vous simplifier la vie ». Sous 768 px, le titre et le paragraphe de chaque étape sont centrés ; au-dessus ils restent à gauche.
 - **Cartes en fond (avant/après, vos règles) :** la carte des secteurs, variante décorative `src/assets/carte-fond.svg` (sans pastilles ni icônes), posée en fond de section par la classe `.has-map` (`src/styles/base.css`) et les variables `--map`, `--map-size`, `--map-pos`, `--map-opacity` réglées dans chaque section. En CSS uniquement : rien dans le HTML, donc ignorée des lecteurs d'écran ; sans interaction. Sections en `overflow: hidden`.
 - **Intégrations :** les 5 éléments (picto, titre, texte) sont centrés.
 - **Déploiement (frise) :** le cercle corail est sur l'étape 1 au repos ; au survol d'une étape il se déplace sur elle (l'étape 1 reprend alors la petite puce). Sur mobile, il suit l'étape touchée (le survol reste actif après un toucher). Transition coupée si l'utilisateur demande moins d'animations.
@@ -108,7 +108,7 @@ En-têtes : `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: DENY`
 | `check:form` | validation du formulaire (jsdom) |
 | `check:video` | le lecteur Vimeo n'est injecté qu'au clic, avec `dnt=1` |
 | `check:reveal` | animations désactivées si le mouvement est réduit |
-| `check:requests` | en Chrome : aucune requête externe ni cookie, aucun défilement horizontal de 320 à 1440 px, géométrie du hero, en-tête non collant sans JavaScript, puces centrées, pictos d'intégrations centrés, cartes en fond présentes, cercle de la frise au survol (Chrome requis, hors `npm run check`) |
+| `check:requests` | en Chrome : aucune requête externe ni cookie, aucun défilement horizontal de 320 à 1440 px, géométrie du hero, en-tête non collant sans JavaScript, puces centrées, textes des étapes centrés sur mobile seulement, pictos d'intégrations centrés, cartes en fond présentes, cercle de la frise au survol (Chrome requis, hors `npm run check`) |
 
 Dernière mesure Lighthouse mobile (2026-11-24) : performance 100, accessibilité 100, bonnes pratiques 100, SEO 100.
 

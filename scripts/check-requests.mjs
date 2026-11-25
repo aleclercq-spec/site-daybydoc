@@ -102,6 +102,9 @@ try {
         const a = st.getBoundingClientRect(), b = st.querySelector(".step__num").getBoundingClientRect();
         return Math.abs(a.left + a.width / 2 - (b.left + b.width / 2));
       }));
+    const aligns = await p.$$eval("#fonctionnement .step h3, #fonctionnement .step p", (els) => [...new Set(els.map((e) => getComputedStyle(e).textAlign))]);
+    const want = width < 768 ? "center" : "start";
+    aligns.length === 1 && (aligns[0] === want || (want === "start" && aligns[0] === "left")) ? ok(`textes des étapes : alignement ${want} @${width}px`) : fail(`textes des étapes @${width}px : alignement ${aligns} au lieu de ${want} (centré sur mobile seulement)`);
     off.every((d) => d <= 1) ? ok(`puces 1, 2, 3 centrées @${width}px`) : fail(`puces non centrées @${width}px (écarts ${off.map((d) => d.toFixed(1)).join(", ")} px)`);
     const maps = await p.evaluate(() => ["#avant-apres", "#regles"].map((id) => {
       const el = document.querySelector(id), cs = getComputedStyle(el, "::before");
