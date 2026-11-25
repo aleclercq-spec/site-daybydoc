@@ -4,8 +4,8 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 
 ## À faire / en attente
 
-- [ ] Valider les retouches du 2026-11-25 (branche `feat/retouches-maquette`, non poussée) : rendu des cartes en fond (taille, opacité), comportement de la frise sur mobile, formulaire. Puis pousser et fusionner sur accord.
-- [ ] **Avant de fusionner :** créer la boîte ou l'alias contact@daybydoc.fr chez OVH (le site l'affichera) ; décider si les mentions légales, la confidentialité et la notification Netlify passent aussi à cette adresse.
+- [ ] Tester un envoi réel du formulaire (prénom + nom) sur le site en ligne et vérifier l'e-mail reçu ; valider en ligne le rendu des cartes en fond et la frise sur mobile.
+- [ ] Décider si les mentions légales, la confidentialité et la notification Netlify passent aussi à contact@daybydoc.fr (elles restent sur contact@dbyd.fr).
 - [ ] Recette sur l'adresse provisoire : reste l'affichage sur iPhone, Android, tablette et ordinateur (Chrome, Safari, Firefox) et le formulaire refusé s'il manque un champ. Validés par l'utilisateur le 2026-11-24 : envoi réel du formulaire, lecture de la vidéo Vimeo, affichage mobile.
 - [ ] Netlify : domaine principal `www.daybydoc.fr` (à faire avec la bascule DNS).
 - [ ] Renseigner `[date de mise en ligne]` dans `src/content/legal/confidentialite.md` (aucun test ne bloque sa mise en ligne telle quelle).
@@ -17,6 +17,7 @@ Ce qui a été fait, par date (du plus récent au plus ancien), puis ce qui rest
 
 ## 2026-11-25
 
+- **Mis en ligne** (push sur `main`, commit 59b95f9, déploiement Netlify vérifié : nouveau titre, champ `prenom`, contact@daybydoc.fr, carte en fond servie). La boîte contact@daybydoc.fr reçoit du courrier (confirmé par l'utilisateur). Reste à tester un envoi réel du formulaire avec les champs prénom / nom.
 - Neuf commentaires de l'utilisateur sur le design Claude Design appliqués sur la branche `feat/retouches-maquette` (voir `decisions.md`) : titre et ordre des étapes, puces centrées, cartes en fond (avant/après, vos règles), cercle de la frise au survol, formulaire prénom + nom, contact@daybydoc.fr. Tests écrits d'abord (structure, formulaire, textes connus, puces, cartes, survol en Chrome) ; `npm run check` et `check:requests` verts. Rien n'est poussé ni fusionné : à valider par l'utilisateur sur le rendu local.
 - Maquettes Claude Design (6 planches) mises à jour avec les mêmes retouches, version 149 du design.
 - Branches fusionnées supprimées (locales et GitHub).
